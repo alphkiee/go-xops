@@ -3,11 +3,12 @@ package common
 // 系统配置, 配置字段可参见yml注释
 // viper内置了mapstructure, yml文件用"-"区分单词, 转为驼峰方便
 type Configuration struct {
-	System SystemConfiguration `mapstructure:"system" json:"system"`
-	Mysql  MysqlConfiguration  `mapstructure:"mysql" json:"mysql"`
-	Jwt    JwtConfiguration    `mapstructure:"jwt" json:"jwt"`
-	Upload UploadConfiguration `mapstructure:"upload" json:"upload"`
-	Casbin CasbinConfiguration `mapstructure:"casbin" json:"casbin"`
+	System               SystemConfiguration `mapstructure:"system" json:"system"`
+	Mysql                MysqlConfiguration  `mapstructure:"mysql" json:"mysql"`
+	Jwt                  JwtConfiguration    `mapstructure:"jwt" json:"jwt"`
+	Upload               UploadConfiguration `mapstructure:"upload" json:"upload"`
+	Casbin               CasbinConfiguration `mapstructure:"casbin" json:"casbin"`
+	PrometheusApiAddress PrometheusAddress   `mapstructure:"prometheusapiaddress" json:"prometheusapiaddress"`
 }
 
 type SystemConfiguration struct {
@@ -46,4 +47,8 @@ type JwtConfiguration struct {
 type UploadConfiguration struct {
 	SaveDir       string `mapstructure:"save-dir" json:"saveDir"`
 	SingleMaxSize uint   `mapstructure:"single-max-size" json:"singleMaxSize"`
+}
+
+type PrometheusAddress struct {
+	Address string `mapstructure:"address" json:"addres"`
 }
