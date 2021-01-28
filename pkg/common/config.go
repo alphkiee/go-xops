@@ -50,5 +50,5 @@ type UploadConfiguration struct {
 }
 
 type PrometheusAddress struct {
-	Address string `mapstructure:"address" json:"addres"`
+	Address string `mapstructure:"address" json:"address"`
 }
