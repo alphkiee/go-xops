@@ -1,0 +1,63 @@
+# development
+system:
+  # url前缀
+  url-path-prefix: api
+  # gin模式 debug|release
+  app-mode: debug
+  # 开启全局事务管理器
+  transaction: true
+  # 操作日志key
+  operation-log-key: operlog_response
+  # 程序监听端口
+  port: 9000
+
+mysql:
+  # 用户名
+  username: root
+  # 密码
+  password: 123456
+  # 数据库名
+  database: xops
+  # 主机地址
+  host: 127.0.0.1
+  # 端口
+  port: 3306
+  # 连接字符串查询参数
+  query: charset=utf8&parseTime=True&loc=Local&timeout=10000ms
+  # 是否打印SQL日志
+  log-mode: true
+  # 数据库表前缀
+  table-prefix: tb
+  # 编码方式
+  charset: utf8mb4
+  # 字符集
+  collation: utf8mb4_general_ci
+
+# casbin配置
+casbin:
+  # 模型配置文件, 默认以conf目录为根目录
+  model-path: 'rbac_model.conf'
+  # 自动加载策略延迟（秒）
+  load-delay: 60
+
+# jwt配置
+jwt:
+  # jwt标识
+  realm: xops
+  # 服务端密钥
+  key: vFr3RRkxlBG0ggRYLG
+  # token过期时间, 小时
+  timeout: 4
+  # token更新时间, 小时
+  max-refresh: 4
+
+# 上传配置
+upload:
+  # 上传文件保存路径
+  save-dir: upload
+  # 单个文件或分片文件最大限制, 单位MB(上传文件先读取到内存, 如果这个值设置过大会导致内存崩溃)
+  single-max-size: 32
+
+# prometheus api地址
+prometheusapiaddress:
+  address: http://127.0.0.1:9090
