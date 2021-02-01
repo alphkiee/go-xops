@@ -12,6 +12,18 @@ import (
 	"time"
 )
 
+// @title Gin swagger
+// @version 2.0
+// @description Gin swagger
+
+// @contact.name pilaoban
+// @contact.url https://github.com/jkuup
+// @contact.email alphkiee@gmail.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host 127.0.0.1:9000
 func main() {
 	// 初始化配置
 	initialize.InitConfig()
