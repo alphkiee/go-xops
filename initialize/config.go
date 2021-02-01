@@ -20,7 +20,7 @@ const (
 	prodConfig = "config-prod.yml"
 )
 
-// 初始化配置文件
+// InitConfig ...初始化配置文件
 func InitConfig() {
 	// 使用packr将配置文件打包到二进制文件中, 如果以docker镜像方式运行将会非常舒服
 	common.ConfBox = packr.New(configBoxName, configPath)

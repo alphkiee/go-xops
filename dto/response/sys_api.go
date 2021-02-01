@@ -4,7 +4,7 @@ import (
 	"go-xops/models"
 )
 
-// 接口信息响应, 字段含义见models
+// ApiListResp ...接口信息响应, 字段含义见models
 type ApiListResp struct {
 	Id        uint             `json:"id"`
 	Name      string           `json:"name"`

@@ -9,9 +9,14 @@ import (
 	"go-xops/routers/pmt"
 	"go-xops/routers/system"
 
+	_ "go-xops/docs"
+
 	"github.com/gin-gonic/gin"
+	swagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
+// Routers ...
 func Routers() *gin.Engine {
 	gin.SetMode(common.Conf.System.AppMode)
 	// 创建带有默认中间件的路由:
@@ -21,6 +26,7 @@ func Routers() *gin.Engine {
 	r := gin.New()
 	// 添加中间件logger记录日志
 	r.Use(middleware.LoggerToFile())
+	r.GET("/swagger/*any", swagger.WrapHandler(swaggerFiles.Handler))
 	// 添加全局异常处理中间件
 	r.Use(middleware.Exception)
 	// 添加跨域中间件, 让请求支持跨域-生产勿用

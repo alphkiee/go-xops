@@ -6,13 +6,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// http请求响应封装
+// RespInfo ...http请求响应封装
 type RespInfo struct {
 	Code    int         `json:"code"`    // 错误代码代码
 	Status  bool        `json:"status"`  // 状态
 	Data    interface{} `json:"data"`    // 数据内容
 	Message string      `json:"message"` // 消息提示
 }
+
+// RespPageInfo ...
 type RespPageInfo struct {
 	Code    int         `json:"code"`    // 错误代码代码
 	Status  bool        `json:"status"`  // 状态
@@ -20,7 +22,7 @@ type RespPageInfo struct {
 	Message string      `json:"message"` // 消息提示
 }
 
-// 分页封装
+// PageInfo ...分页封装
 type PageInfo struct {
 	Current  uint  `json:"current" form:"current"`   // 当前页码
 	PageSize uint  `json:"pageSize" form:"pageSize"` // 每页显示条数
@@ -28,13 +30,13 @@ type PageInfo struct {
 	All      bool  `json:"all" form:"all"`           // 不使用分页
 }
 
-// 带分页数据封装
+// PageData ....带分页数据封装
 type PageData struct {
 	PageInfo
 	DataList interface{} `json:"data"` // 数据列表
 }
 
-// 计算limit/offset, 如果需要用到返回的PageSize, PageNum, 务必保证Total值有效
+// GetLimit ...计算limit/offset, 如果需要用到返回的PageSize, PageNum, 务必保证Total值有效
 func (s *PageInfo) GetLimit() (int, int) {
 	// 传入参数可能不合法, 设置默认值
 	var pageSize int64
@@ -80,6 +82,7 @@ func (s *PageInfo) GetLimit() (int, int) {
 	return int(limit), int(offset)
 }
 
+// Result ...
 func Result(code int, status bool, data interface{}) {
 	// 结果以panic异常的形式抛出, 交由异常处理中间件处理
 	panic(RespInfo{
@@ -90,6 +93,7 @@ func Result(code int, status bool, data interface{}) {
 	})
 }
 
+// MsgResult ...
 func MsgResult(code int, status bool, msg string, data interface{}) {
 	// 结果以panic异常的形式抛出, 交由异常处理中间件处理
 	panic(RespInfo{
@@ -100,35 +104,42 @@ func MsgResult(code int, status bool, msg string, data interface{}) {
 	})
 }
 
+// Success ...
 func Success() {
 	Result(Ok, true, map[string]interface{}{})
 }
 
+// SuccessWithData ...
 func SuccessWithData(data interface{}) {
 	Result(Ok, true, data)
 }
 
+// SuccessWithPageData ...
 func SuccessWithPageData(data interface{}) {
 	Result(Ok, true, data)
 }
 
+// SuccessWithMsg ...
 func SuccessWithMsg(msg string) {
 	MsgResult(Ok, true, msg, map[string]interface{}{})
 }
 
+// SuccessWithCode ...
 func SuccessWithCode(code int) {
 	Result(code, true, map[string]interface{}{})
 }
 
+// FailWithMsg ...
 func FailWithMsg(msg string) {
 	MsgResult(NotOk, false, msg, map[string]interface{}{})
 }
 
+// FailWithCode ...
 func FailWithCode(code int) {
 	Result(code, false, map[string]interface{}{})
 }
 
-// 写入json返回值
+// JSON ...写入json返回值
 func JSON(c *gin.Context, code int, resp interface{}) {
 	// 调用gin写入json
 	c.JSON(code, resp)

@@ -11,7 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// 初始化数据
+// InitData ...初始化数据
 func InitData() {
 	// 1. 初始化角色
 	creator := "系统创建"
