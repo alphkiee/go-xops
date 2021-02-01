@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 基础路由
+// InitAuthRouter ...基础路由
 func InitAuthRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
 	router := r.Group("auth")
 	{

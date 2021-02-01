@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 字典路由
+// InitDictRouter ...字典路由
 func InitDictRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
 	router := r.Group("dict").Use(authMiddleware.MiddlewareFunc()).Use(middleware.CasbinMiddleware)
 	{

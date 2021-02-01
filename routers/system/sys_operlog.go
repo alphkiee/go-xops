@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 菜单路由
+// InitOperLogRouter ...菜单路由
 func InitOperLogRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
 	router := r.Group("operlog").Use(authMiddleware.MiddlewareFunc()).Use(middleware.CasbinMiddleware)
 	{

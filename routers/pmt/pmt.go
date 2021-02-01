@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// InitHostRouter ...
+// InitPrometheusRouter ...
 func InitPrometheusRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
 	router := r.Group("prometheus").Use(authMiddleware.MiddlewareFunc()).Use(middleware.CasbinMiddleware)
 	{

@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// 结构体转为json
+// Struct2Json ...结构体转为json
 func Struct2Json(obj interface{}) string {
 	str, err := json.Marshal((obj))
 	if err != nil {
@@ -14,7 +14,7 @@ func Struct2Json(obj interface{}) string {
 	return string(str)
 }
 
-// json转为结构体
+// Json2Struct ...json转为结构体
 func Json2Struct(str string, obj interface{}) {
 	// 将json转为结构体
 	err := json.Unmarshal([]byte(str), obj)
@@ -37,7 +37,7 @@ func Struct2StructByJson(struct1 interface{}, struct2 interface{}) {
 	Json2Struct(jsonStr, struct2)
 }
 
-// 两结构体比对不同的字段, 不同时将取struct1中的字段返回, json为中间桥梁, struct3必须以指针方式传递, 否则可能获取到空数据
+// CompareDifferenceStructByJson ...两结构体比对不同的字段, 不同时将取struct1中的字段返回, json为中间桥梁, struct3必须以指针方式传递, 否则可能获取到空数据
 func CompareDifferenceStructByJson(oldStruct interface{}, newStruct interface{}, update interface{}) {
 	// 通过json先将其转为map集合
 	m1 := make(map[string]interface{}, 0)

@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 部门路由
+// InitDeptRouter ...部门路由
 func InitDeptRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
 	router := r.Group("dept").Use(authMiddleware.MiddlewareFunc()).Use(middleware.CasbinMiddleware)
 	{

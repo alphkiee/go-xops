@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// User
+// InitUserRouter ...
 func InitUserRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
 	router := r.Group("user").Use(authMiddleware.MiddlewareFunc()).Use(middleware.CasbinMiddleware)
 	{

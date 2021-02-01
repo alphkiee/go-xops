@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 菜单路由
+// InitMenuRouter ...菜单路由
 func InitMenuRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
 	router := r.Group("menu").Use(authMiddleware.MiddlewareFunc()).Use(middleware.CasbinMiddleware)
 	{

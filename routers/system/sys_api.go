@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 接口路由
-func InitApiRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
+// InitAPIRouter ...接口路由(源函数名称InitApiRouter)
+func InitAPIRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
 	router := r.Group("api").Use(authMiddleware.MiddlewareFunc()).Use(middleware.CasbinMiddleware)
 	{
 		router.GET("/list", system.GetApis)

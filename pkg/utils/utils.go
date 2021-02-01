@@ -13,7 +13,7 @@ import (
 	"unsafe"
 )
 
-//随机字符串
+// CreateRandomString ...随机字符串
 func CreateRandomString(len int) string {
 	var container string
 	var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
@@ -27,17 +27,19 @@ func CreateRandomString(len int) string {
 	return container
 }
 
+// Str2Bytes ...
 func Str2Bytes(s string) []byte {
 	x := (*[2]uintptr)(unsafe.Pointer(&s))
 	h := [3]uintptr{x[0], x[1], x[1]}
 	return *(*[]byte)(unsafe.Pointer(&h))
 }
 
+// Bytes2Str ...
 func Bytes2Str(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
 
-// 字符串转int
+// Str2Int ...字符串转int
 func Str2Int(str string) int {
 	num, err := strconv.Atoi(str)
 	if err != nil {
@@ -46,7 +48,7 @@ func Str2Int(str string) int {
 	return num
 }
 
-// 字符串转uint
+// Str2Uint ...字符串转uint
 func Str2Uint(str string) uint {
 	num, err := strconv.ParseUint(str, 10, 32)
 	if err != nil {
@@ -55,7 +57,7 @@ func Str2Uint(str string) uint {
 	return uint(num)
 }
 
-// 字符串转uint数组, 默认逗号分割
+// Str2UintArr ...字符串转uint数组, 默认逗号分割
 func Str2UintArr(str string) (ids []uint) {
 	idArr := strings.Split(str, ",")
 	for _, v := range idArr {
@@ -64,7 +66,7 @@ func Str2UintArr(str string) (ids []uint) {
 	return
 }
 
-// 字符串转成数组
+// Str2Arr ...字符串转成数组
 func Str2Arr(str string) (arr []string) {
 	a := strings.Split(str, ",")
 	for _, v := range a {
@@ -73,7 +75,7 @@ func Str2Arr(str string) (arr []string) {
 	return
 }
 
-// 判断文件是否存在
+// FileExist ...判断文件是否存在
 func FileExist(path string) bool {
 	_, err := os.Stat(path)
 	if err != nil && os.IsNotExist(err) {
@@ -82,13 +84,13 @@ func FileExist(path string) bool {
 	return true
 }
 
-// 获取文件的MD5
+// GetFileMd5 ...获取文件的MD5
 func GetFileMd5(filename string) string {
 	file, _ := ioutil.ReadFile(filename)
 	return fmt.Sprintf("%x", md5.Sum(file))
 }
 
-// 判断uint数组是否包含item元素
+// ContainsUint ...判断uint数组是否包含item元素
 func ContainsUint(arr []uint, item uint) bool {
 	for _, v := range arr {
 		if v == item {
@@ -98,7 +100,7 @@ func ContainsUint(arr []uint, item uint) bool {
 	return false
 }
 
-// 字节的单位转换 保留两位小数
+// FormatFileSize ...字节的单位转换 保留两位小数
 func FormatFileSize(fileSize int64) (size string) {
 	if fileSize < 1024 {
 		//return strconv.FormatInt(fileSize, 10) + "B"
