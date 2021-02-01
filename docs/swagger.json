@@ -1,0 +1,60 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Gin swagger",
+        "title": "Gin swagger",
+        "contact": {
+            "name": "pilaoban",
+            "url": "https://github.com/jkuup",
+            "email": "alphkiee@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "2.0"
+    },
+    "host": "127.0.0.1:9000",
+    "paths": {
+        "/api/ping": {
+            "get": {
+                "description": "查看调用接口是否能够ping通",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Ping",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "response.RespInfo": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "错误代码代码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "数据内容",
+                    "type": "object"
+                },
+                "message": {
+                    "description": "消息提示",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "状态",
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

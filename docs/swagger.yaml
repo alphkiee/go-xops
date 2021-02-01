@@ -1,0 +1,41 @@
+definitions:
+  response.RespInfo:
+    properties:
+      code:
+        description: 错误代码代码
+        type: integer
+      data:
+        description: 数据内容
+        type: object
+      message:
+        description: 消息提示
+        type: string
+      status:
+        description: 状态
+        type: boolean
+    type: object
+host: 127.0.0.1:9000
+info:
+  contact:
+    email: alphkiee@gmail.com
+    name: pilaoban
+    url: https://github.com/jkuup
+  description: Gin swagger
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Gin swagger
+  version: "2.0"
+paths:
+  /api/ping:
+    get:
+      description: 查看调用接口是否能够ping通
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      summary: Get Ping
+swagger: "2.0"
