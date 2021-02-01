@@ -38,4 +38,22 @@ paths:
           schema:
             $ref: '#/definitions/response.RespInfo'
       summary: Get Ping
+  /api/v1/user/info:
+    get:
+      description: 获取当前用户信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/user/info
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -12,17 +12,17 @@ import (
 	"time"
 )
 
-// @title Gin swagger
+// @title Go-Xops
 // @version 2.0
-// @description Gin swagger
-
+// @description Go-Xops swagger接口文档
 // @contact.name pilaoban
 // @contact.url https://github.com/jkuup
 // @contact.email alphkiee@gmail.com
-
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-
 // @host 127.0.0.1:9000
 func main() {
 	// 初始化配置

@@ -15,7 +15,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// 获取当前请求用户信息
+// GetCurrentUserFromCache ...
 func GetCurrentUserFromCache(c *gin.Context) interface{} {
 	user, exists := c.Get("user")
 	var newUser system.SysUser
@@ -40,7 +40,13 @@ func GetCurrentUserFromCache(c *gin.Context) interface{} {
 	return newUser
 }
 
-// 获取当前用户信息返回给页面
+// GetUserInfo doc
+// @Summary Get /api/v1/user/info
+// @Description 获取当前用户信息
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Router /api/v1/user/info [get]
 func GetUserInfo(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 转为UserInfoResponseStruct, 隐藏部分字段
