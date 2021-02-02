@@ -1,4 +1,78 @@
 definitions:
+  request.ChangePwdReq:
+    properties:
+      new_password:
+        type: string
+      old_password:
+        type: string
+    required:
+    - new_password
+    - old_password
+    type: object
+  request.CreateUserReq:
+    properties:
+      avatar:
+        type: string
+      creator:
+        type: string
+      dept_id:
+        type: integer
+      email:
+        type: string
+      mobile:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      role_id:
+        type: integer
+      username:
+        type: string
+    required:
+    - name
+    - password
+    - role_id
+    - username
+    type: object
+  request.IdsReq:
+    properties:
+      ids:
+        description: 传多个id
+        items:
+          type: integer
+        type: array
+    type: object
+  request.UpdateUserBaseInfoReq:
+    properties:
+      email:
+        type: string
+      mobile:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  request.UpdateUserReq:
+    properties:
+      dept_id:
+        type: integer
+      email:
+        type: string
+      mobile:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      role_id:
+        type: integer
+      status:
+        type: boolean
+    required:
+    - name
+    type: object
   response.RespInfo:
     properties:
       code:
@@ -20,11 +94,11 @@ info:
     email: alphkiee@gmail.com
     name: pilaoban
     url: https://github.com/jkuup
-  description: Gin swagger
+  description: Go-Xops swagger接口文档
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  title: Gin swagger
+  title: Go-Xops
   version: "2.0"
 paths:
   /api/ping:
@@ -38,6 +112,78 @@ paths:
           schema:
             $ref: '#/definitions/response.RespInfo'
       summary: Get Ping
+  /api/v1/user/changePwd:
+    put:
+      description: 更改用户的密码
+      parameters:
+      - description: old_password, new_password
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ChangePwdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Put /api/v1/user/changePwd
+  /api/v1/user/create:
+    post:
+      description: 创建用户
+      parameters:
+      - description: username, password, name, role_id
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Post /api/v1/user/create
+  /api/v1/user/delete:
+    delete:
+      description: 根据ID批量删除用户
+      parameters:
+      - description: ids
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete /api/v1/user/delete
   /api/v1/user/info:
     get:
       description: 获取当前用户信息
@@ -51,6 +197,129 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/user/info
+  /api/v1/user/info/update/{userId}:
+    patch:
+      description: 根据user ID来更新用户基本信息
+      parameters:
+      - description: userId
+        in: path
+        name: userId
+        required: true
+        type: integer
+      - description: mobile, name, email
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateUserBaseInfoReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Patch /api/v1/user/info/update/:userId
+  /api/v1/user/info/uploadImg:
+    post:
+      description: 上传头像
+      parameters:
+      - description: avatar
+        in: formData
+        name: avatar
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Post /api/v1/user/info/uploadImg
+  /api/v1/user/list:
+    get:
+      description: 列出所有用户
+      parameters:
+      - description: username
+        in: query
+        name: username
+        type: string
+      - description: mobile
+        in: query
+        name: mobile
+        type: string
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: creator
+        in: query
+        name: creator
+        type: string
+      - description: dept_id
+        in: query
+        name: dept_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/user/list
+  /api/v1/user/update/{userId}:
+    patch:
+      description: 更新用户根据 user ID
+      parameters:
+      - description: userId
+        in: path
+        name: userId
+        required: true
+        type: integer
+      - description: mobile, name, email, password
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Patch /api/v1/user/update/:userId
 securityDefinitions:
   ApiKeyAuth:
     in: header

@@ -10,6 +10,7 @@ import (
 	"go-xops/pkg/utils"
 	"strings"
 
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
@@ -68,11 +69,10 @@ func (s *MysqlService) CreateUser(req *request.CreateUserReq) (err error) {
 	return
 }
 
-// 更新用户基本信息
+// UpdateUserBaseInfoById ...更新用户基本信息
 func (s *MysqlService) UpdateUserBaseInfoById(id uint, req request.UpdateUserBaseInfoReq) (err error) {
 	var oldUser system.SysUser
-	//query := s.db.Table(oldUser.TableName()).Where("id = ?", id).First(&oldUser)
-	query := s.db.First(&oldUser).Where("id = ?", id)
+	query := s.db.Table(oldUser.TableName()).Where("id = ?", id).First(&oldUser)
 	if query.Error == gorm.ErrInvalidField {
 		return errors.New("记录不存在")
 	}
@@ -83,7 +83,7 @@ func (s *MysqlService) UpdateUserBaseInfoById(id uint, req request.UpdateUserBas
 	return
 }
 
-// 更新用户
+// UpdateUserById ...更新用户
 func (s *MysqlService) UpdateUserById(id uint, req request.UpdateUserReq) (err error) {
 	var oldUser system.SysUser
 	query := s.db.Table(oldUser.TableName()).Where("id = ?", id).First(&oldUser)
@@ -91,6 +91,7 @@ func (s *MysqlService) UpdateUserById(id uint, req request.UpdateUserReq) (err e
 	if query.Error == gorm.ErrRecordNotFound {
 		return errors.New("记录不存在")
 	}
+	logrus.Printf("req= %v", req)
 	password := ""
 	// 填写了新密码
 	if strings.TrimSpace(req.Password) != "" {
