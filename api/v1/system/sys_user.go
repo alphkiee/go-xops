@@ -55,7 +55,15 @@ func GetUserInfo(c *gin.Context) {
 	response.SuccessWithData(resp)
 }
 
-// 创建用户
+// CreateUser doc
+// @Summary Post /api/v1/user/create
+// @Description 创建用户
+// @Produce json
+// @Param data body request.CreateUserReq true "username, password, name, role_id"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/user/create [post]
 func CreateUser(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
@@ -83,7 +91,20 @@ func CreateUser(c *gin.Context) {
 	response.Success()
 }
 
-// 获取用户列表
+// GetUsers doc
+// @Summary Get /api/v1/user/list
+// @Description 列出所有用户
+// @Produce json
+// @Param username query string false "username"
+// @Param mobile query string false "mobile"
+// @Param name query string false "name"
+// @Param status query string false "status"
+// @Param creator query string false "creator"
+// @Param dept_id query string false "dept_id"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/user/list [get]
 func GetUsers(c *gin.Context) {
 	// 绑定参数
 	var req request.UserListReq
@@ -113,7 +134,16 @@ func GetUsers(c *gin.Context) {
 
 }
 
-// 更新用户基本信息
+// UpdateUserBaseInfoById doc
+// @Summary Patch /api/v1/user/info/update/:userId
+// @Description 根据user ID来更新用户基本信息
+// @Produce json
+// @Param userId path int true "userId"
+// @Param data body request.UpdateUserBaseInfoReq true "mobile, name, email"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/user/info/update/{userId} [patch]
 func UpdateUserBaseInfoById(c *gin.Context) {
 	// 绑定参数
 	var req request.UpdateUserBaseInfoReq
@@ -145,7 +175,16 @@ func UpdateUserBaseInfoById(c *gin.Context) {
 	response.Success()
 }
 
-// 更新用户
+// UpdateUserById doc
+// @Summary Patch /api/v1/user/update/:userId
+// @Description 更新用户根据 user ID
+// @Produce json
+// @Param userId path int true "userId"
+// @Param data body request.UpdateUserReq true "mobile, name, email, password"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/user/update/{userId} [patch]
 func UpdateUserById(c *gin.Context) {
 	// 绑定参数
 	var req request.UpdateUserReq
@@ -177,7 +216,15 @@ func UpdateUserById(c *gin.Context) {
 	response.Success()
 }
 
-// 修改密码
+// ChangePwd doc
+// @Summary Put /api/v1/user/changePwd
+// @Description 更改用户的密码
+// @Produce json
+// @Param data body request.ChangePwdReq true "old_password, new_password"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/user/changePwd [put]
 func ChangePwd(c *gin.Context) {
 	var msg string
 	// 请求json绑定
@@ -215,7 +262,15 @@ func ChangePwd(c *gin.Context) {
 	response.Success()
 }
 
-// 批量删除用户
+// DeleteUserByIds doc
+// @Summary Delete /api/v1/user/delete
+// @Description 根据ID批量删除用户
+// @Produce json
+// @Param data body request.IdsReq true "ids"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/user/delete [delete]
 func DeleteUserByIds(c *gin.Context) {
 	var req request.IdsReq
 	err := c.Bind(&req)
@@ -235,6 +290,15 @@ func DeleteUserByIds(c *gin.Context) {
 	response.Success()
 }
 
+// UserAvatarUpload doc
+// @Summary Post /api/v1/user/info/uploadImg
+// @Description 上传头像
+// @Produce json
+// @Param avatar formData file true "avatar"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/user/info/uploadImg [post]
 func UserAvatarUpload(c *gin.Context) {
 	// 限制头像2MB(二进制移位xxxMB)
 	err := c.Request.ParseMultipartForm(2 << 20)

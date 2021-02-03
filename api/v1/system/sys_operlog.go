@@ -14,7 +14,19 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// 获取操作日志列表
+// GetOperLogs doc
+// @Summary Get /api/v1/operlog/list
+// @Description 列出所有操作日志
+// @Produce json
+// @Param name query string false "name"
+// @Param method query string false "method"
+// @Param path query string false "path"
+// @Param username query string false "username"
+// @Param ip query string false "ip"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/operlog/list [get]
 func GetOperLogs(c *gin.Context) {
 	// 绑定参数
 	var req request.OperLogListReq
@@ -57,7 +69,15 @@ func GetOperLogs(c *gin.Context) {
 	response.SuccessWithData(resp)
 }
 
-// 批量删除操作日志
+// BatchDeleteOperLogByIds doc
+// @Summary Delete /api/v1/operlog/delete
+// @Description 根据ID批量删除日志
+// @Produce json
+// @Param data body request.IdsReq true "ids"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/operlog/delete [delete]
 func BatchDeleteOperLogByIds(c *gin.Context) {
 	var req request.IdsReq
 	err := c.Bind(&req)

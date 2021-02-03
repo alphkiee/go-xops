@@ -12,7 +12,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 获取角色列表
+// GetRoles doc
+// @Summary Get /api/v1/role/list
+// @Description 列出所有角色
+// @Produce json
+// @Param name query string false "name"
+// @Param keyword query string false "keyword"
+// @Param status query string false "status"
+// @Param creator query string false "creator"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/role/list [get]
 func GetRoles(c *gin.Context) {
 	// 绑定参数
 	var req request.RoleListReq
@@ -41,7 +52,15 @@ func GetRoles(c *gin.Context) {
 	response.SuccessWithData(resp)
 }
 
-// 创建角色
+// CreateRole doc
+// @Summary Post /api/v1/role/create
+// @Description 创建角色
+// @Produce json
+// @Param data body request.CreateRoleReq true "name, keyword, desc, creator"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/role/create [post]
 func CreateRole(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
@@ -70,7 +89,15 @@ func CreateRole(c *gin.Context) {
 	response.Success()
 }
 
-// 更新角色
+// UpdateRoleById doc
+// @Summary Patch /api/v1/role//update/:roleId
+// @Description 根据role ID来更新角色基本信息
+// @Produce json
+// @Param roleId path int true "roleId"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/role/update/{roleId} [patch]
 func UpdateRoleById(c *gin.Context) {
 	// 绑定参数
 	var req gin.H
@@ -97,7 +124,16 @@ func UpdateRoleById(c *gin.Context) {
 	response.Success()
 }
 
-// 更新角色的权限
+// UpdateRolePermsById doc
+// @Summary Patch /api/v1/role/perms/update/:roleId
+// @Description 根据角色 ID来更新角色权限信息
+// @Produce json
+// @Param roleId path int true "roleId"
+// @Param data body request.UpdateRolePermsReq true "menus_id, apis_id"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/role/perms/update/{roleId} [patch]
 func UpdateRolePermsById(c *gin.Context) {
 	// 绑定参数
 	var req request.UpdateRolePermsReq
@@ -132,7 +168,15 @@ func UpdateRolePermsById(c *gin.Context) {
 	response.Success()
 }
 
-// 批量删除角色
+// BatchDeleteRoleByIds doc
+// @Summary Delete /api/v1/role/delete
+// @Description 根据ID批量删除角色
+// @Produce json
+// @Param data body request.IdsReq true "ids"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/role/delete [delete]
 func BatchDeleteRoleByIds(c *gin.Context) {
 	var req request.IdsReq
 	err := c.Bind(&req)
@@ -152,7 +196,15 @@ func BatchDeleteRoleByIds(c *gin.Context) {
 	response.Success()
 }
 
-// 查询指定角色的权限
+// GetPermsByRoleId doc
+// @Summary Get /api/v1/role/perms/:roleId
+// @Description 获取当前用户信息
+// @Produce json
+// @Param roleId path int true "roleId"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/role/perms/:roleId [get]
 func GetPermsByRoleId(c *gin.Context) {
 	// 创建服务
 	s := service.New()
