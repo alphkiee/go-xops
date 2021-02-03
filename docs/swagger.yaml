@@ -9,6 +9,20 @@ definitions:
     - new_password
     - old_password
     type: object
+  request.CreateRoleReq:
+    properties:
+      creator:
+        type: string
+      desc:
+        type: string
+      keyword:
+        type: string
+      name:
+        type: string
+    required:
+    - keyword
+    - name
+    type: object
   request.CreateUserReq:
     properties:
       avatar:
@@ -38,6 +52,19 @@ definitions:
   request.IdsReq:
     properties:
       ids:
+        description: 传多个id
+        items:
+          type: integer
+        type: array
+    type: object
+  request.UpdateRolePermsReq:
+    properties:
+      apis_id:
+        description: 传多个id
+        items:
+          type: integer
+        type: array
+      menus_id:
         description: 传多个id
         items:
           type: integer
@@ -112,6 +139,225 @@ paths:
           schema:
             $ref: '#/definitions/response.RespInfo'
       summary: Get Ping
+  /api/v1/operlog/delete:
+    delete:
+      description: 根据ID批量删除日志
+      parameters:
+      - description: ids
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete /api/v1/operlog/delete
+  /api/v1/operlog/list:
+    get:
+      description: 列出所有操作日志
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: method
+        in: query
+        name: method
+        type: string
+      - description: path
+        in: query
+        name: path
+        type: string
+      - description: username
+        in: query
+        name: username
+        type: string
+      - description: ip
+        in: query
+        name: ip
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/operlog/list
+  /api/v1/role/create:
+    post:
+      description: 创建角色
+      parameters:
+      - description: name, keyword, desc, creator
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateRoleReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Post /api/v1/role/create
+  /api/v1/role/delete:
+    delete:
+      description: 根据ID批量删除角色
+      parameters:
+      - description: ids
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete /api/v1/role/delete
+  /api/v1/role/list:
+    get:
+      description: 列出所有角色
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: keyword
+        in: query
+        name: keyword
+        type: string
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: creator
+        in: query
+        name: creator
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/role/list
+  /api/v1/role/perms/:roleId:
+    get:
+      description: 获取当前用户信息
+      parameters:
+      - description: roleId
+        in: path
+        name: roleId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/role/perms/:roleId
+  /api/v1/role/perms/update/{roleId}:
+    patch:
+      description: 根据角色 ID来更新角色权限信息
+      parameters:
+      - description: roleId
+        in: path
+        name: roleId
+        required: true
+        type: integer
+      - description: menus_id, apis_id
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateRolePermsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Patch /api/v1/role/perms/update/:roleId
+  /api/v1/role/update/{roleId}:
+    patch:
+      description: 根据role ID来更新角色基本信息
+      parameters:
+      - description: roleId
+        in: path
+        name: roleId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Patch /api/v1/role//update/:roleId
   /api/v1/user/changePwd:
     put:
       description: 更改用户的密码
