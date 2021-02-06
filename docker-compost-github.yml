@@ -2,6 +2,9 @@ version: '2'
 services:
   drone-server:
     image: drone/drone:1
+    # 我是在本机进行搭建8081端口是docker container端口，映射到本机到80端口
+    # 域名使用的是ngrok 内网穿透
+    # 之前使用到别的端口会报错，换成80端口没问题
     ports:
       - 8081:80
     volumes:
