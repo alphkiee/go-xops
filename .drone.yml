@@ -8,3 +8,4 @@ steps:
   image: golang
   commands:
   - go build
+  - go test
