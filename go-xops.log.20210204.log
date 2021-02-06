@@ -1,0 +1,4 @@
+{"client_ip":"60.174.249.202","latency_time":1025,"level":"info","msg":"","req_body":{},"req_method":"GET","req_uri":"/","status_code":404,"time":"2021-02-04 10:05:03"}
+{"client_ip":"60.174.249.202","latency_time":620,"level":"info","msg":"","req_body":{},"req_method":"GET","req_uri":"/favicon.ico","status_code":404,"time":"2021-02-04 10:05:04"}
+{"client_ip":"60.174.249.202","latency_time":266453,"level":"info","msg":"","req_body":{},"req_method":"GET","req_uri":"/api/ping","status_code":200,"time":"2021-02-04 10:05:20"}
+{"client_ip":"60.174.249.202","latency_time":28848,"level":"info","msg":"","req_body":{},"req_method":"GET","req_uri":"/api/ping","status_code":200,"time":"2021-02-04 10:05:32"}
