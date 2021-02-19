@@ -11,7 +11,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 查询所有字典
+// GetDicts doc
+// @Summary Get /api/v1/dict/list
+// @Description 查询所有字典
+// @Produce json
+// @Param data body request.DictListReq true "key, value, desc, creator, status, type_key"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Router /api/v1/dict/list [get]
 func GetDicts(c *gin.Context) {
 	// 绑定参数
 	var req request.DictListReq
@@ -34,7 +41,15 @@ func GetDicts(c *gin.Context) {
 	}
 }
 
-// 创建字典
+// CreateDict doc
+// @Summary Get /api/v1/dict/create
+// @Description 创建菜单
+// @Produce json
+// @Param data body request.CreateDictReq true "key, value, desc, parent_id, creator"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/dict/create [post]
 func CreateDict(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
@@ -63,7 +78,15 @@ func CreateDict(c *gin.Context) {
 	response.Success()
 }
 
-// 更新字典
+// UpdateDictById doc
+// @Summary Get /api/v1/dict/update/:dictId
+// @Description 更新字典
+// @Produce json
+// @Param data body request.UpdateDictReq true "key, value, desc, parent_id, status"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/dict/update/:dictId [patch]
 func UpdateDictById(c *gin.Context) {
 	// 绑定参数
 	var req request.UpdateDictReq
@@ -88,7 +111,15 @@ func UpdateDictById(c *gin.Context) {
 	response.Success()
 }
 
-// 批量删除字典
+// BatchDeleteDictByIds doc
+// @Summary Delete /api/v1/dict/delete
+// @Description 根据ID批量删除菜单
+// @Produce json
+// @Param data body request.IdsReq true "ids"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/dict/delete [delete]
 func BatchDeleteDictByIds(c *gin.Context) {
 	var req request.IdsReq
 	err := c.Bind(&req)

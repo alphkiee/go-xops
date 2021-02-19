@@ -1,4 +1,31 @@
 definitions:
+  request.ApiListReq:
+    properties:
+      all:
+        description: 不使用分页
+        type: boolean
+      category:
+        type: string
+      creator:
+        type: string
+      current:
+        description: 当前页码
+        type: integer
+      method:
+        type: string
+      name:
+        type: string
+      pageSize:
+        description: 每页显示条数
+        type: integer
+      path:
+        type: string
+      total:
+        description: 数据总条数
+        type: integer
+      tree:
+        type: boolean
+    type: object
   request.ChangePwdReq:
     properties:
       new_password:
@@ -8,6 +35,72 @@ definitions:
     required:
     - new_password
     - old_password
+    type: object
+  request.CreateApiReq:
+    properties:
+      category:
+        type: string
+      creator:
+        type: string
+      desc:
+        type: string
+      method:
+        type: string
+      name:
+        type: string
+      path:
+        type: string
+    required:
+    - category
+    - method
+    - name
+    - path
+    type: object
+  request.CreateDeptReq:
+    properties:
+      creator:
+        type: string
+      name:
+        type: string
+      parent_id:
+        type: integer
+      sort:
+        type: integer
+    required:
+    - name
+    type: object
+  request.CreateDictReq:
+    properties:
+      creator:
+        type: string
+      desc:
+        type: string
+      key:
+        type: string
+      parent_id:
+        type: integer
+      value:
+        type: string
+    required:
+    - key
+    - value
+    type: object
+  request.CreateMenuReq:
+    properties:
+      creator:
+        type: string
+      icon:
+        type: string
+      name:
+        type: string
+      parent_id:
+        type: integer
+      path:
+        type: string
+      sort:
+        type: integer
+    required:
+    - name
     type: object
   request.CreateRoleReq:
     properties:
@@ -49,6 +142,30 @@ definitions:
     - role_id
     - username
     type: object
+  request.DeptListReq:
+    properties:
+      creator:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+    type: object
+  request.DictListReq:
+    properties:
+      creator:
+        type: string
+      desc:
+        type: string
+      key:
+        type: string
+      status:
+        type: boolean
+      type_key:
+        type: string
+      value:
+        type: string
+    type: object
   request.IdsReq:
     properties:
       ids:
@@ -56,6 +173,52 @@ definitions:
         items:
           type: integer
         type: array
+    type: object
+  request.UpdateDeptReq:
+    properties:
+      name:
+        type: string
+      parent_id:
+        type: integer
+      sort:
+        type: integer
+      status:
+        type: boolean
+    required:
+    - name
+    type: object
+  request.UpdateDictReq:
+    properties:
+      desc:
+        type: string
+      key:
+        type: string
+      parent_id:
+        type: integer
+      status:
+        type: boolean
+      value:
+        type: string
+    required:
+    - key
+    - value
+    type: object
+  request.UpdateMenuReq:
+    properties:
+      icon:
+        type: string
+      name:
+        type: string
+      parent_id:
+        type: integer
+      path:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: boolean
+    required:
+    - name
     type: object
   request.UpdateRolePermsReq:
     properties:
@@ -139,6 +302,391 @@ paths:
           schema:
             $ref: '#/definitions/response.RespInfo'
       summary: Get Ping
+  /api/v1/api/create:
+    post:
+      description: 创建api
+      parameters:
+      - description: name, method, path, category, creator, desc
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateApiReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/api/create
+  /api/v1/api/delete:
+    delete:
+      description: 根据ID批量删除api
+      parameters:
+      - description: ids
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete /api/v1/api/delete
+  /api/v1/api/list:
+    post:
+      description: 查看所有API
+      parameters:
+      - description: name, method, path, category, creator, tree
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ApiListReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/api/list
+  /api/v1/api/update/:apiId:
+    patch:
+      description: 更新api
+      parameters:
+      - description: apiId
+        in: path
+        name: apiId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/api/update/:apiId
+  /api/v1/dept/create:
+    post:
+      description: 创建部门
+      parameters:
+      - description: name, sort, parent_id, creator
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateDeptReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/dept/create
+  /api/v1/dept/delete:
+    delete:
+      description: 根据ID批量删除部门
+      parameters:
+      - description: ids
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete /api/v1/dept/delete
+  /api/v1/dept/list:
+    get:
+      description: 查询所有部门
+      parameters:
+      - description: name, creator, status
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.DeptListReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/dept/list
+  /api/v1/dept/update/:deptId:
+    patch:
+      description: 更新部门
+      parameters:
+      - description: name, status, sort, parent_id
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateDeptReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/dept/update/:deptId
+  /api/v1/dict/create:
+    post:
+      description: 创建菜单
+      parameters:
+      - description: key, value, desc, parent_id, creator
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateDictReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/dict/create
+  /api/v1/dict/delete:
+    delete:
+      description: 根据ID批量删除菜单
+      parameters:
+      - description: ids
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete /api/v1/dict/delete
+  /api/v1/dict/list:
+    get:
+      description: 查询所有字典
+      parameters:
+      - description: key, value, desc, creator, status, type_key
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.DictListReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/dict/list
+  /api/v1/dict/update/:dictId:
+    patch:
+      description: 更新字典
+      parameters:
+      - description: key, value, desc, parent_id, status
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateDictReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/dict/update/:dictId
+  /api/v1/menu/create:
+    post:
+      description: 创建菜单
+      parameters:
+      - description: name, icon, path, sort, parent_id, creator
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateMenuReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/menu/create
+  /api/v1/menu/delete:
+    delete:
+      description: 根据ID批量删除菜单
+      parameters:
+      - description: ids
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete /api/v1/menu/delete
+  /api/v1/menu/list:
+    get:
+      description: 查询所有菜单
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/menu/list
+  /api/v1/menu/tree:
+    get:
+      description: 当前用户菜单树
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/menu/tree
+  /api/v1/menu/update/:menuId:
+    patch:
+      description: 更新菜单
+      parameters:
+      - description: name, icon, path, sort, status, parent_id
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateMenuReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/menu/update/:menuId
   /api/v1/operlog/delete:
     delete:
       description: 根据ID批量删除日志

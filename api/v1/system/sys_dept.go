@@ -11,7 +11,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 查询所有部门
+// GetDepts doc
+// @Summary Get /api/v1/dept/list
+// @Description 查询所有部门
+// @Produce json
+// @Param data body request.DeptListReq true "name, creator, status"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/dept/list [get]
 func GetDepts(c *gin.Context) {
 	// 绑定参数
 	var req request.DeptListReq
@@ -34,7 +42,15 @@ func GetDepts(c *gin.Context) {
 	}
 }
 
-// 创建部门
+// CreateDept doc
+// @Summary Get /api/v1/dept/create
+// @Description 创建部门
+// @Produce json
+// @Param data body request.CreateDeptReq true "name, sort, parent_id, creator"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/dept/create [post]
 func CreateDept(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
@@ -63,7 +79,15 @@ func CreateDept(c *gin.Context) {
 	response.Success()
 }
 
-// 更新部门
+// UpdateDeptById doc
+// @Summary Get /api/v1/dept/update/:deptId
+// @Description 更新部门
+// @Produce json
+// @Param data body request.UpdateDeptReq true "name, status, sort, parent_id"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/dept/update/:deptId [patch]
 func UpdateDeptById(c *gin.Context) {
 	// 绑定参数
 	var req request.UpdateDeptReq
@@ -88,7 +112,15 @@ func UpdateDeptById(c *gin.Context) {
 	response.Success()
 }
 
-// 批量删除部门
+// BatchDeleteDeptByIds doc
+// @Summary Delete /api/v1/dept/delete
+// @Description 根据ID批量删除部门
+// @Produce json
+// @Param data body request.IdsReq true "ids"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/dept/delete [delete]
 func BatchDeleteDeptByIds(c *gin.Context) {
 	var req request.IdsReq
 	err := c.Bind(&req)

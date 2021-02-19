@@ -49,6 +49,633 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/api/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建api",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/api/create",
+                "parameters": [
+                    {
+                        "description": "name, method, path, category, creator, desc",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateApiReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/api/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据ID批量删除api",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete /api/v1/api/delete",
+                "parameters": [
+                    {
+                        "description": "ids",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.IdsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/api/list": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "查看所有API",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/api/list",
+                "parameters": [
+                    {
+                        "description": "name, method, path, category, creator, tree",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ApiListReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/api/update/:apiId": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新api",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/api/update/:apiId",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "apiId",
+                        "name": "apiId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dept/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建部门",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/dept/create",
+                "parameters": [
+                    {
+                        "description": "name, sort, parent_id, creator",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateDeptReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dept/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据ID批量删除部门",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete /api/v1/dept/delete",
+                "parameters": [
+                    {
+                        "description": "ids",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.IdsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dept/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "查询所有部门",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/dept/list",
+                "parameters": [
+                    {
+                        "description": "name, creator, status",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.DeptListReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dept/update/:deptId": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新部门",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/dept/update/:deptId",
+                "parameters": [
+                    {
+                        "description": "name, status, sort, parent_id",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateDeptReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dict/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建菜单",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/dict/create",
+                "parameters": [
+                    {
+                        "description": "key, value, desc, parent_id, creator",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateDictReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dict/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据ID批量删除菜单",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete /api/v1/dict/delete",
+                "parameters": [
+                    {
+                        "description": "ids",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.IdsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dict/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "查询所有字典",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/dict/list",
+                "parameters": [
+                    {
+                        "description": "key, value, desc, creator, status, type_key",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.DictListReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dict/update/:dictId": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新字典",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/dict/update/:dictId",
+                "parameters": [
+                    {
+                        "description": "key, value, desc, parent_id, status",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateDictReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/menu/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建菜单",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/menu/create",
+                "parameters": [
+                    {
+                        "description": "name, icon, path, sort, parent_id, creator",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateMenuReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/menu/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据ID批量删除菜单",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete /api/v1/menu/delete",
+                "parameters": [
+                    {
+                        "description": "ids",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.IdsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/menu/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "查询所有菜单",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/menu/list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/menu/tree": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "当前用户菜单树",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/menu/tree",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/menu/update/:menuId": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新菜单",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/menu/update/:menuId",
+                "parameters": [
+                    {
+                        "description": "name, icon, path, sort, status, parent_id",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateMenuReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/operlog/delete": {
             "delete": {
                 "security": [
@@ -736,6 +1363,45 @@ var doc = `{
         }
     },
     "definitions": {
+        "request.ApiListReq": {
+            "type": "object",
+            "properties": {
+                "all": {
+                    "description": "不使用分页",
+                    "type": "boolean"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "creator": {
+                    "type": "string"
+                },
+                "current": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "pageSize": {
+                    "description": "每页显示条数",
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "total": {
+                    "description": "数据总条数",
+                    "type": "integer"
+                },
+                "tree": {
+                    "type": "boolean"
+                }
+            }
+        },
         "request.ChangePwdReq": {
             "type": "object",
             "required": [
@@ -748,6 +1414,105 @@ var doc = `{
                 },
                 "old_password": {
                     "type": "string"
+                }
+            }
+        },
+        "request.CreateApiReq": {
+            "type": "object",
+            "required": [
+                "category",
+                "method",
+                "name",
+                "path"
+            ],
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "creator": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.CreateDeptReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "creator": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.CreateDictReq": {
+            "type": "object",
+            "required": [
+                "key",
+                "value"
+            ],
+            "properties": {
+                "creator": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.CreateMenuReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "creator": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "integer"
                 }
             }
         },
@@ -810,6 +1575,43 @@ var doc = `{
                 }
             }
         },
+        "request.DeptListReq": {
+            "type": "object",
+            "properties": {
+                "creator": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "request.DictListReq": {
+            "type": "object",
+            "properties": {
+                "creator": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "type_key": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
         "request.IdsReq": {
             "type": "object",
             "properties": {
@@ -819,6 +1621,76 @@ var doc = `{
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "request.UpdateDeptReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "request.UpdateDictReq": {
+            "type": "object",
+            "required": [
+                "key",
+                "value"
+            ],
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.UpdateMenuReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "icon": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
                 }
             }
         },

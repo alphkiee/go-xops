@@ -11,7 +11,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 获取接口列表
+// GetApis doc
+// @Summary Get /api/v1/api/list
+// @Description 查看所有API
+// @Produce json
+// @Param data body request.ApiListReq true "name, method, path, category, creator, tree"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/api/list [post]
 func GetApis(c *gin.Context) {
 	// 绑定参数
 	var req request.ApiListReq
@@ -72,7 +80,15 @@ func GetApis(c *gin.Context) {
 	response.SuccessWithData(resp)
 }
 
-// 创建接口
+// CreateApi doc
+// @Summary Get /api/v1/api/create
+// @Description 创建api
+// @Produce json
+// @Param data body request.CreateApiReq true "name, method, path, category, creator, desc"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/api/create [post]
 func CreateApi(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
@@ -101,7 +117,15 @@ func CreateApi(c *gin.Context) {
 	response.Success()
 }
 
-// 更新接口
+// UpdateApiById doc
+// @Summary Get /api/v1/api/update/:apiId
+// @Description 更新api
+// @Produce json
+// @Param apiId path int true "apiId"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/api/update/:apiId [patch]
 func UpdateApiById(c *gin.Context) {
 	// 绑定参数
 	var req gin.H
@@ -128,7 +152,15 @@ func UpdateApiById(c *gin.Context) {
 	response.Success()
 }
 
-// 批量删除接口
+// BatchDeleteApiByIds doc
+// @Summary Delete /api/v1/api/delete
+// @Description 根据ID批量删除api
+// @Produce json
+// @Param data body request.IdsReq true "ids"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/api/delete [delete]
 func BatchDeleteApiByIds(c *gin.Context) {
 	var req request.IdsReq
 	err := c.Bind(&req)
