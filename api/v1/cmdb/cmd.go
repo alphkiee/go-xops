@@ -12,6 +12,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/mitchellh/go-homedir"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/ssh"
 )
 
@@ -19,7 +20,6 @@ const summary = `Summary:
 All Executed Hosts: %d
 Success:            %d
 Failures:           %d
-Failed Hosts:
 `
 
 func publicKeyAuthFunc(kPath string) ssh.AuthMethod {
@@ -100,7 +100,7 @@ func CmdExec(c *gin.Context) {
 
 	wg.Wait()
 
-	//logrus.Printf(summary, hostNum, hostNum-fail.Data, fail.Data)
+	logrus.Printf(summary, hostNum, hostNum-fail.Data, fail.Data)
 	response.SuccessWithData(res)
 }
 
@@ -111,8 +111,8 @@ func Sftp(c *gin.Context) {
 	)
 
 	ids := utils.Str2UintArr(c.PostForm("ids"))
-	srcPath := c.PostForm("srcPath")
-	dstPath := c.PostForm("dstPath")
+	srcPath := utils.Str2Arr(c.PostForm("srcPath"))
+	dstPath := utils.Str2Arr(c.PostForm("dstPath"))
 
 	s := service.New()
 	hosts, err := s.GetHostByIds(ids)
@@ -124,12 +124,13 @@ func Sftp(c *gin.Context) {
 		i++
 		config := new(cmd.ClientConfig)
 		config.CreateClient(host.IP, port, host.User, host.Password)
-		wg.Add(1)
-		go func(ip string) {
-			config.Upload(srcPath, dstPath)
-			wg.Done()
-		}(host.IP)
-
+		for i, v := range srcPath {
+			wg.Add(1)
+			go func(ip string) {
+				config.Upload(v, dstPath[i])
+				wg.Done()
+			}(host.IP)
+		}
 		if i == 30 {
 			wg.Wait()
 			i = 0

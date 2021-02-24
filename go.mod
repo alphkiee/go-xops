@@ -41,6 +41,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/swaggo/gin-swagger v1.3.0
 	github.com/swaggo/swag v1.7.0
+	github.com/tal-tech/go-zero v1.1.4 // indirect
 	github.com/tealeg/xlsx v1.0.5
 	github.com/tebeka/strftime v0.1.5 // indirect
 	github.com/ugorji/go v1.2.3 // indirect

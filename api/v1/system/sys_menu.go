@@ -11,7 +11,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 查询当前用户菜单树
+// GetUserMenuTree doc
+// @Summary Get /api/v1/menu/tree
+// @Description 当前用户菜单树
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/menu/tree [get]
 func GetUserMenuTree(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	s := service.New()
@@ -26,7 +33,13 @@ func GetUserMenuTree(c *gin.Context) {
 	response.SuccessWithData(resp)
 }
 
-// 查询所有菜单
+// GetMenus doc
+// @Summary Get /api/v1/menu/list
+// @Description 查询所有菜单
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Router /api/v1/menu/list [get]
 func GetMenus(c *gin.Context) {
 	// 创建服务
 	s := service.New()
@@ -36,7 +49,15 @@ func GetMenus(c *gin.Context) {
 	response.SuccessWithData(resp)
 }
 
-// 创建菜单
+// CreateMenu doc
+// @Summary Get /api/v1/menu/create
+// @Description 创建菜单
+// @Produce json
+// @Param data body request.CreateMenuReq true "name, icon, path, sort, parent_id, creator"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/menu/create [post]
 func CreateMenu(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
@@ -65,7 +86,15 @@ func CreateMenu(c *gin.Context) {
 	response.Success()
 }
 
-// 更新菜单
+// UpdateMenuById doc
+// @Summary Get /api/v1/menu/update/:menuId
+// @Description 更新菜单
+// @Produce json
+// @Param data body request.UpdateMenuReq true "name, icon, path, sort, status, parent_id"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/menu/update/:menuId [patch]
 func UpdateMenuById(c *gin.Context) {
 	// 绑定参数
 	var req request.UpdateMenuReq
@@ -92,7 +121,15 @@ func UpdateMenuById(c *gin.Context) {
 	response.Success()
 }
 
-// 批量删除菜单
+// BatchDeleteMenuByIds doc
+// @Summary Delete /api/v1/menu/delete
+// @Description 根据ID批量删除菜单
+// @Produce json
+// @Param data body request.IdsReq true "ids"
+// @Security ApiKeyAuth
+// @Success 200 {object} response.RespInfo
+// @Failure 400 {object} response.RespInfo
+// @Router /api/v1/menu/delete [delete]
 func BatchDeleteMenuByIds(c *gin.Context) {
 	var req request.IdsReq
 	err := c.Bind(&req)
