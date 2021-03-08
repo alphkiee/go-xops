@@ -43,13 +43,15 @@ func main() {
 	//fmt.Println(redis.Set("b","xx"))
 
 	//是否初始化数据(慎用) $go-xops init
-	if len(os.Args) > 1 {
-		if os.Args[1] == "init" {
-			initialize.InitData()
-			fmt.Println("数据初始化成功!")
-			os.Exit(1)
+	/*
+		if len(os.Args) > 1 {
+			if os.Args[1] == "init" {
+				initialize.InitData()
+				fmt.Println("数据初始化成功!")
+				os.Exit(1)
+			}
 		}
-	}
+	*/
 
 	// 关闭cache连接池
 	// defer common.Redis.Close()
