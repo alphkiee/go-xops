@@ -6,6 +6,7 @@ import (
 	"go-xops/pkg/common"
 	"go-xops/routers"
 	"go-xops/routers/cmdb"
+	"go-xops/routers/k8sr"
 	"go-xops/routers/pmt"
 	"go-xops/routers/system"
 
@@ -43,14 +44,15 @@ func Routers() *gin.Engine {
 	// 方便统一添加路由前缀
 	v1 := apiGroup.Group("v1")
 	{
-		system.InitUserRouter(v1, authMiddleware)    // 注册用户路由
-		system.InitDeptRouter(v1, authMiddleware)    // 注册部门路由
-		system.InitMenuRouter(v1, authMiddleware)    // 注册菜单路由
-		system.InitRoleRouter(v1, authMiddleware)    // 注册角色路由
-		system.InitDictRouter(v1, authMiddleware)    // 注册字典路由
-		system.InitOperLogRouter(v1, authMiddleware) // 注册操作日志路由
-		cmdb.InitHostRouter(v1, authMiddleware)      // 注册主机路由
-		pmt.InitPrometheusRouter(v1, authMiddleware) // 注册prometheus路由
+		system.InitUserRouter(v1, authMiddleware)     // 注册用户路由
+		system.InitDeptRouter(v1, authMiddleware)     // 注册部门路由
+		system.InitMenuRouter(v1, authMiddleware)     // 注册菜单路由
+		system.InitRoleRouter(v1, authMiddleware)     // 注册角色路由
+		system.InitDictRouter(v1, authMiddleware)     // 注册字典路由
+		system.InitOperLogRouter(v1, authMiddleware)  // 注册操作日志路由
+		cmdb.InitHostRouter(v1, authMiddleware)       // 注册主机路由
+		pmt.InitPrometheusRouter(v1, authMiddleware)  // 注册prometheus路由
+		k8sr.InitPrometheusRouter(v1, authMiddleware) // 注册k8sapi路由
 	}
 
 	return r
