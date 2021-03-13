@@ -1,0 +1,5 @@
+{"client_ip":"127.0.0.1","latency_time":269231900,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/auth/login","status_code":200,"time":"2021-03-13 15:34:14"}
+{"client_ip":"127.0.0.1","latency_time":374009900,"level":"info","msg":"","req_body":{},"req_method":"PATCH","req_uri":"/api/v1/k8s/deployment/update","status_code":200,"time":"2021-03-13 15:39:14"}
+{"client_ip":"127.0.0.1","latency_time":76780100,"level":"info","msg":"","req_body":{},"req_method":"PATCH","req_uri":"/api/v1/k8s/deployment/update","status_code":200,"time":"2021-03-13 15:41:22"}
+{"client_ip":"127.0.0.1","latency_time":171080100,"level":"info","msg":"","req_body":{},"req_method":"PATCH","req_uri":"/api/v1/k8s/deployment/update","status_code":200,"time":"2021-03-13 15:43:11"}
+{"client_ip":"127.0.0.1","latency_time":299186000,"level":"info","msg":"","req_body":{},"req_method":"PATCH","req_uri":"/api/v1/k8s/deployment/update","status_code":200,"time":"2021-03-13 15:43:59"}
