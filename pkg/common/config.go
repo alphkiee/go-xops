@@ -9,6 +9,7 @@ type Configuration struct {
 	Upload               UploadConfiguration `mapstructure:"upload" json:"upload"`
 	Casbin               CasbinConfiguration `mapstructure:"casbin" json:"casbin"`
 	PrometheusApiAddress PrometheusAddress   `mapstructure:"prometheusapiaddress" json:"prometheusapiaddress"`
+	KubeConf             KubeConfiguration   `mapstructure:"kubeConf" json:"kubeConf"`
 }
 
 type SystemConfiguration struct {
@@ -51,4 +52,8 @@ type UploadConfiguration struct {
 
 type PrometheusAddress struct {
 	Address string `mapstructure:"address" json:"address"`
+}
+
+type KubeConfiguration struct {
+	Path string `mapstructure:"path" json:"path"`
 }

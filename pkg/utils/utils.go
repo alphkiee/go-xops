@@ -117,3 +117,5 @@ func FormatFileSize(fileSize int64) (size string) {
 		return fmt.Sprintf("%.2fEB", float64(fileSize)/float64(1024*1024*1024*1024*1024))
 	}
 }
+
+func Int32Ptr(i int32) *int32 { return &i }
