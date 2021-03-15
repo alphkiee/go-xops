@@ -1,8 +1,0 @@
-{"client_ip":"127.0.0.1","latency_time":246305800,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/auth/login","status_code":200,"time":"2021-03-12 10:28:27"}
-{"client_ip":"127.0.0.1","latency_time":722809200,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/v1/k8s/deployment/create","status_code":200,"time":"2021-03-12 11:18:13"}
-{"client_ip":"127.0.0.1","latency_time":337126000,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/v1/k8s/deployment/create","status_code":200,"time":"2021-03-12 11:22:31"}
-{"client_ip":"127.0.0.1","latency_time":426185600,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/v1/k8s/deployment/create","status_code":200,"time":"2021-03-12 11:23:53"}
-{"client_ip":"127.0.0.1","latency_time":374062700,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/v1/k8s/deployment/create","status_code":200,"time":"2021-03-12 11:24:45"}
-{"client_ip":"127.0.0.1","latency_time":211199700,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/v1/k8s/deployment/create","status_code":200,"time":"2021-03-12 11:25:32"}
-{"client_ip":"127.0.0.1","latency_time":348514600,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/v1/k8s/deployment/create","status_code":200,"time":"2021-03-12 11:35:15"}
-{"client_ip":"127.0.0.1","latency_time":160761600,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/v1/k8s/deployment/create","status_code":200,"time":"2021-03-12 11:36:14"}

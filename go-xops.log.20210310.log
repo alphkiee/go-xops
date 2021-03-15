@@ -1,4 +1,0 @@
-{"client_ip":"127.0.0.1","latency_time":249676500,"level":"info","msg":"","req_body":{},"req_method":"POST","req_uri":"/api/auth/login","status_code":200,"time":"2021-03-10 10:41:06"}
-{"client_ip":"127.0.0.1","latency_time":0,"level":"info","msg":"","req_body":{},"req_method":"GET","req_uri":"/api/v1/application/list","status_code":404,"time":"2021-03-10 10:42:34"}
-{"client_ip":"127.0.0.1","latency_time":654171900,"level":"info","msg":"","req_body":{},"req_method":"GET","req_uri":"/api/v1/k8s/application/list","status_code":200,"time":"2021-03-10 10:43:01"}
-{"client_ip":"127.0.0.1","latency_time":552682900,"level":"info","msg":"","req_body":{},"req_method":"GET","req_uri":"/api/v1/k8s/application/list","status_code":200,"time":"2021-03-10 10:55:15"}
