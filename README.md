@@ -20,6 +20,6 @@
 - [X] Linux主机管理
 - [X] Linux服务器的命令执行，文件下发，web界面终端
 - [X] 主机监控,数据库监控基于prometheus和grafana
+- [X] 基于docker和k8s的镜像构建和打包
 - 待开发
 - [ ] CI/CD持续构建和集成
-- [X] 基于docker和k8s的镜像构建和打包
