@@ -9,6 +9,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gobuffalo/packr/v2"
 	"gorm.io/gorm"
+	"k8s.io/client-go/kubernetes"
 )
 
 // 全局变量
@@ -24,7 +25,8 @@ var (
 	// validation.v10相关翻译器
 	Translator ut.Translator
 	// Casbin 管理器
-	Casbin *casbin.SyncedEnforcer
+	Casbin    *casbin.SyncedEnforcer
+	ClientSet *kubernetes.Clientset
 )
 
 // 全局常量
