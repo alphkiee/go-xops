@@ -22,4 +22,4 @@
 - [X] 主机监控,数据库监控基于prometheus和grafana
 - 待开发
 - [ ] CI/CD持续构建和集成
-- [ ] 基于docker和k8s的镜像构建和打包
+- [X] 基于docker和k8s的镜像构建和打包
