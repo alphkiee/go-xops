@@ -2,7 +2,7 @@ package cmdb
 
 import (
 	"encoding/json"
-	"go-xops/dto/service/terminal/sftp"
+	"go-xops/internal/service/terminal/sftp"
 	"log"
 
 	"github.com/gin-gonic/gin"

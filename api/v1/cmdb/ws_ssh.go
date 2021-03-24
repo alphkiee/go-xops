@@ -7,12 +7,12 @@ import (
 	"strconv"
 	"time"
 
-	"go-xops/dto/service"
-	"go-xops/dto/service/terminal"
-	"go-xops/dto/service/terminal/sftp"
+	"go-xops/internal/service"
+	"go-xops/internal/service/terminal"
+	"go-xops/internal/service/terminal/sftp"
 	"go-xops/pkg/utils"
 
-	"go-xops/dto/cacheService"
+	"go-xops/pkg/cache"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -97,7 +97,7 @@ func WsSsh(c *gin.Context) {
 			//logrus.WithError(err).Error("reading webSocket message failed")
 			return
 		}
-		cache, _ := cacheService.New(time.Second * 15)
+		cache, _ := cache.New(time.Second * 15)
 		err = cache.GetCache(auth.Sid)
 
 		if err != nil {

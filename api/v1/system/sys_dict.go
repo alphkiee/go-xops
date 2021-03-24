@@ -1,10 +1,10 @@
 package system
 
 import (
-	"go-xops/dto/request"
-	"go-xops/dto/response"
-	"go-xops/dto/service"
-	"go-xops/models/system"
+	"go-xops/assets/system"
+	"go-xops/internal/request"
+	"go-xops/internal/response"
+	"go-xops/internal/service"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 

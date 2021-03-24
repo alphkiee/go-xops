@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"go-xops/dto/cacheService"
-	"go-xops/dto/request"
-	"go-xops/dto/response"
-	"go-xops/dto/service"
+	"go-xops/internal/request"
+	"go-xops/internal/response"
+	"go-xops/internal/service"
+	"go-xops/pkg/cache"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 	"time"
@@ -104,7 +104,7 @@ func unauthorized(c *gin.Context, code int, message string) {
 
 func loginResponse(c *gin.Context, code int, token string, expires time.Time) {
 	// 缓存token
-	cache, err := cacheService.New(time.Duration(common.Conf.Jwt.Timeout))
+	cache, err := cache.New(time.Duration(common.Conf.Jwt.Timeout))
 	if err != nil {
 		logrus.Error(err)
 	}

@@ -1,11 +1,11 @@
 package system
 
 import (
-	"go-xops/dto/cacheService"
-	"go-xops/dto/request"
-	"go-xops/dto/response"
-	"go-xops/dto/service"
-	"go-xops/models/system"
+	"go-xops/assets/system"
+	"go-xops/internal/request"
+	"go-xops/internal/response"
+	"go-xops/internal/service"
+	"go-xops/pkg/cache"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 	"path"
@@ -24,7 +24,7 @@ func GetCurrentUserFromCache(c *gin.Context) interface{} {
 	}
 	u, _ := user.(response.LoginResp)
 	// 创建缓存对象
-	cache, err := cacheService.New(time.Second * 15)
+	cache, err := cache.New(time.Second * 15)
 	if err != nil {
 		logrus.Error(err)
 	}

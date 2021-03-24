@@ -2,8 +2,8 @@ package middleware
 
 import (
 	v1 "go-xops/api/v1/system"
-	"go-xops/dto/response"
-	"go-xops/models/system"
+	"go-xops/assets/system"
+	"go-xops/internal/response"
 	"go-xops/pkg/common"
 	"strings"
 

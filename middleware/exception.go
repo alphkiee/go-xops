@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"go-xops/dto/response"
+	"go-xops/internal/response"
 
 	"github.com/gin-gonic/gin"
 )

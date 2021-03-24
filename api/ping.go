@@ -1,7 +1,7 @@
 package api
 
 import (
-	"go-xops/dto/response"
+	"go-xops/internal/response"
 
 	"github.com/gin-gonic/gin"
 )

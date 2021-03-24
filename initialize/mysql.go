@@ -2,8 +2,8 @@ package initialize
 
 import (
 	"fmt"
-	"go-xops/models/cmdb"
-	"go-xops/models/system"
+	"go-xops/assets/cmdb"
+	"go-xops/assets/system"
 	"go-xops/pkg/common"
 
 	"gorm.io/driver/mysql"

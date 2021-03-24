@@ -1,9 +1,9 @@
 package cmdb
 
 import (
-	"go-xops/dto/response"
-	"go-xops/dto/service"
-	"go-xops/dto/service/cmd"
+	"go-xops/internal/response"
+	"go-xops/internal/service"
+	"go-xops/internal/service/cmd"
 	"go-xops/pkg/utils"
 	"io/ioutil"
 	"log"
