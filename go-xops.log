@@ -44,3 +44,11 @@ time="2021-03-13T15:39:14+08:00" level=info client_ip=127.0.0.1 latency_time=374
 time="2021-03-13T15:41:22+08:00" level=info client_ip=127.0.0.1 latency_time=76.7801ms req_body="&{0xc00066a018 <nil> <nil> false true {0 0} false false false 0xac3680}" req_method=PATCH req_uri=/api/v1/k8s/deployment/update status_code=200
 time="2021-03-13T15:43:11+08:00" level=info client_ip=127.0.0.1 latency_time=171.0801ms req_body="&{0xc000602030 <nil> <nil> false true {0 0} true false false 0x9a3680}" req_method=PATCH req_uri=/api/v1/k8s/deployment/update status_code=200
 time="2021-03-13T15:43:59+08:00" level=info client_ip=127.0.0.1 latency_time=299.186ms req_body="&{0xc000004ae0 <nil> <nil> false true {0 0} true false false 0xbe3680}" req_method=PATCH req_uri=/api/v1/k8s/deployment/update status_code=200
+time="2021-03-23T14:31:36+08:00" level=info client_ip="2409:8934:e11:38c7:25ec:613a:9df:9697" latency_time=0s req_body="{}" req_method=GET req_uri=/ status_code=404
+time="2021-03-23T14:31:38+08:00" level=info client_ip="2409:8934:e11:38c7:25ec:613a:9df:9697" latency_time=0s req_body="{}" req_method=GET req_uri=/favicon.ico status_code=404
+time="2021-03-23T14:31:42+08:00" level=info client_ip="2409:8934:e11:38c7:25ec:613a:9df:9697" latency_time=0s req_body="{}" req_method=GET req_uri=/ping status_code=404
+time="2021-03-23T14:31:55+08:00" level=info client_ip="2409:8934:e11:38c7:25ec:613a:9df:9697" latency_time=0s req_body="{}" req_method=GET req_uri=/ping status_code=404
+time="2021-03-23T14:32:04+08:00" level=info client_ip="2409:8934:e11:38c7:25ec:613a:9df:9697" latency_time=0s req_body="{}" req_method=GET req_uri=/api/v1/ping status_code=404
+time="2021-03-23T14:32:34+08:00" level=info client_ip="2409:8934:e11:38c7:25ec:613a:9df:9697" latency_time=0s req_body="{}" req_method=GET req_uri=/ping status_code=404
+time="2021-03-23T14:33:15+08:00" level=info client_ip="::1" latency_time=0s req_body="{}" req_method=GET req_uri=/ping status_code=404
+time="2021-03-23T14:33:41+08:00" level=info client_ip="2409:8934:e11:38c7:25ec:613a:9df:9697" latency_time=1.0876078s req_body="{}" req_method=GET req_uri=/api/ping status_code=200
