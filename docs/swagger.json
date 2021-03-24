@@ -493,6 +493,290 @@
                 }
             }
         },
+        "/api/v1/k8s/application": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取指定的application",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Post /api/v1/k8s/application",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "namespace",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "format",
+                        "name": "format",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/k8s/application/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取所有applications",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/k8s/application/list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/k8s/deployment/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建deployment",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Post /api/v1/k8s/deployment/create",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "deployment",
+                        "name": "deployment",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "replicas",
+                        "name": "replicas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "matchlabels",
+                        "name": "matchlabels",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "labels",
+                        "name": "labels",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "imagename",
+                        "name": "imagename",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "image",
+                        "name": "image",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "namespace",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "containerport",
+                        "name": "containerport",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/k8s/deployment/update": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新deployment",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Patch /api/v1/k8s/deployment/update",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "deploymentname",
+                        "name": "deploymentname",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "replicas",
+                        "name": "replicas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "image",
+                        "name": "image",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "namespace",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "containerport",
+                        "name": "containerport",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/k8s/namespace/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取所有的namespaces",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/k8s/namespace/list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/k8s/namespace/name/:ns": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取指定的namespace",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/k8s/namespace/name/:ns",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ns",
+                        "name": "ns",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/menu/create": {
             "post": {
                 "security": [
@@ -752,6 +1036,49 @@
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/prometheus/host/:key/:job": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "根据key, job 获取监控项值",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "key",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "job",
+                        "name": "job",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.RespInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/response.RespInfo"
                         }

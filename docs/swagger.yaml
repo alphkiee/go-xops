@@ -585,6 +585,184 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/dict/update/:dictId
+  /api/v1/k8s/application:
+    post:
+      description: 获取指定的application
+      parameters:
+      - description: id
+        in: query
+        name: id
+        type: integer
+      - description: namespace
+        in: query
+        name: namespace
+        type: string
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: format
+        in: query
+        name: format
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Post /api/v1/k8s/application
+  /api/v1/k8s/application/list:
+    get:
+      description: 获取所有applications
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/k8s/application/list
+  /api/v1/k8s/deployment/create:
+    post:
+      description: 创建deployment
+      parameters:
+      - description: deployment
+        in: query
+        name: deployment
+        type: string
+      - description: replicas
+        in: query
+        name: replicas
+        type: integer
+      - description: matchlabels
+        in: query
+        name: matchlabels
+        type: string
+      - description: labels
+        in: query
+        name: labels
+        type: string
+      - description: imagename
+        in: query
+        name: imagename
+        type: string
+      - description: image
+        in: query
+        name: image
+        type: string
+      - description: namespace
+        in: query
+        name: namespace
+        type: string
+      - description: containerport
+        in: query
+        name: containerport
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Post /api/v1/k8s/deployment/create
+  /api/v1/k8s/deployment/update:
+    patch:
+      description: 更新deployment
+      parameters:
+      - description: deploymentname
+        in: query
+        name: deploymentname
+        type: string
+      - description: replicas
+        in: query
+        name: replicas
+        type: integer
+      - description: image
+        in: query
+        name: image
+        type: string
+      - description: namespace
+        in: query
+        name: namespace
+        type: string
+      - description: containerport
+        in: query
+        name: containerport
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Patch /api/v1/k8s/deployment/update
+  /api/v1/k8s/namespace/list:
+    get:
+      description: 获取所有的namespaces
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/k8s/namespace/list
+  /api/v1/k8s/namespace/name/:ns:
+    get:
+      description: 获取指定的namespace
+      parameters:
+      - description: ns
+        in: path
+        name: ns
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/k8s/namespace/name/:ns
   /api/v1/menu/create:
     post:
       description: 创建菜单
@@ -749,6 +927,33 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/operlog/list
+  /api/v1/prometheus/host/:key/:job:
+    get:
+      description: 根据key, job 获取监控项值
+      parameters:
+      - description: key
+        in: path
+        name: key
+        required: true
+        type: string
+      - description: job
+        in: path
+        name: job
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.RespInfo'
+      security:
+      - ApiKeyAuth: []
   /api/v1/role/create:
     post:
       description: 创建角色
