@@ -1,9 +1,7 @@
 package middleware
 
 import (
-	"go-xops/internal/request"
-	"go-xops/internal/response"
-	"go-xops/internal/service"
+	"go-xops/internal/service/system"
 	"go-xops/pkg/cache"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
@@ -14,7 +12,12 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var loginInfo response.LoginResp
+var loginInfo system.LoginResp
+
+type RegisterAndLoginReq struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
 
 func InitAuth() (*jwt.GinJWTMiddleware, error) {
 	return jwt.New(&jwt.GinJWTMiddleware{
@@ -25,7 +28,7 @@ func InitAuth() (*jwt.GinJWTMiddleware, error) {
 		MaxRefresh:       time.Hour * time.Duration(common.Conf.Jwt.MaxRefresh),
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			if v, ok := data.(map[string]interface{}); ok {
-				var user response.LoginResp
+				var user system.LoginResp
 				utils.JsonI2Struct(v["user"], &user)
 				return jwt.MapClaims{
 					jwt.IdentityKey: user.Id,
@@ -42,10 +45,9 @@ func InitAuth() (*jwt.GinJWTMiddleware, error) {
 			}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
-			var req request.RegisterAndLoginReq
+			var req RegisterAndLoginReq
 			_ = c.ShouldBindJSON(&req)
-			s := service.New()
-			user, err := s.LoginCheck(req.Username, req.Password)
+			user, err := system.LoginCheck(req.Username, req.Password)
 			if err != nil {
 				return nil, err
 			}
@@ -57,7 +59,7 @@ func InitAuth() (*jwt.GinJWTMiddleware, error) {
 		},
 		Authorizator: func(data interface{}, c *gin.Context) bool {
 			if v, ok := data.(map[string]interface{}); ok {
-				var user response.LoginResp
+				var user system.LoginResp
 				utils.JsonI2Struct(v["user"], &user)
 				c.Set("user", user)
 				return true
@@ -65,15 +67,15 @@ func InitAuth() (*jwt.GinJWTMiddleware, error) {
 			return false
 		},
 		Unauthorized: func(c *gin.Context, code int, message string) {
-			if message == response.LoginCheckErrorMsg {
-				response.FailWithMsg(response.LoginCheckErrorMsg)
+			if message == common.LoginCheckErrorMsg {
+				common.FailWithMsg(common.LoginCheckErrorMsg)
 				return
-			} else if message == response.UserForbiddenMsg {
-				response.FailWithCode(response.UserForbidden)
+			} else if message == common.UserForbiddenMsg {
+				common.FailWithCode(common.UserForbidden)
 				return
 			}
 
-			response.FailWithCode(response.Unauthorized)
+			common.FailWithCode(common.Unauthorized)
 		},
 		LoginResponse: func(c *gin.Context, code int, token string, expires time.Time) {
 			cache, err := cache.New(time.Duration(common.Conf.Jwt.Timeout))
@@ -95,10 +97,10 @@ func InitAuth() (*jwt.GinJWTMiddleware, error) {
 			}
 			loginInfo.Token = cacheToken.(string)
 			loginInfo.Expires = cacheExpires.(string)
-			response.SuccessWithData(loginInfo)
+			common.SuccessWithData(loginInfo)
 		},
 		LogoutResponse: func(c *gin.Context, code int) {
-			response.Success()
+			common.Success()
 		},
 		TokenLookup:   "header: Authorization, query: token",
 		TokenHeadName: "Bearer",

@@ -2,9 +2,7 @@ package system
 
 import (
 	"go-xops/assets/system"
-	"go-xops/internal/request"
-	"go-xops/internal/response"
-	"go-xops/internal/service"
+	s "go-xops/internal/service/system"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 
@@ -15,36 +13,33 @@ import (
 // @Summary Get /api/v1/api/list
 // @Description 查看所有API
 // @Produce json
-// @Param data body request.ApiListReq true "name, method, path, category, creator, tree"
+// @Param data body s.ApiListReq true "name, method, path, category, creator, tree"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/api/list [post]
 func GetApis(c *gin.Context) {
 	// 绑定参数
-	var req request.ApiListReq
+	var req s.ApiListReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
 
-	// 创建服务
-	s := service.New()
 	apis, err := s.GetApis(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	// 转为ResponseStruct, 隐藏部分字段
-	var respStruct []response.ApiListResp
+	var respStruct []s.ApiListResp
 	utils.Struct2StructByJson(apis, &respStruct)
 	if req.Tree {
 		// 转换成树结构
-		tree := make([]response.ApiTreeResp, 0)
+		tree := make([]s.ApiTreeResp, 0)
 		for _, api := range respStruct {
 			existIndex := -1
-			children := make([]response.ApiListResp, 0)
+			children := make([]s.ApiListResp, 0)
 			for index, leaf := range tree {
 				if leaf.Category == api.Category {
 					children = leaf.Children
@@ -53,7 +48,7 @@ func GetApis(c *gin.Context) {
 				}
 			}
 			// api结构转换
-			var item response.ApiListResp
+			var item s.ApiListResp
 			utils.Struct2StructByJson(api, &item)
 			children = append(children, item)
 			if existIndex != -1 {
@@ -61,60 +56,62 @@ func GetApis(c *gin.Context) {
 				tree[existIndex].Children = children
 			} else {
 				// 新增元素
-				tree = append(tree, response.ApiTreeResp{
+				tree = append(tree, s.ApiTreeResp{
 					Category: api.Category,
 					Children: children,
 				})
 			}
 		}
 
-		response.SuccessWithData(tree)
+		common.SuccessWithData(tree)
 		return
 	}
 	// 返回分页数据
-	var resp response.PageData
+	var resp common.PageData
 	// 设置分页参数
 	resp.PageInfo = req.PageInfo
 	// 设置数据列表
 	resp.DataList = respStruct
-	response.SuccessWithData(resp)
+	common.SuccessWithData(resp)
 }
 
 // CreateApi doc
 // @Summary Get /api/v1/api/create
 // @Description 创建api
 // @Produce json
-// @Param data body request.CreateApiReq true "name, method, path, category, creator, desc"
+// @Param data body s.CreateApiReq true "name, method, path, category, creator, desc"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/api/create [post]
 func CreateApi(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
-	var req request.CreateApiReq
+	var req s.CreateApiReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
+	m := make(map[string]string, 0)
+	m["Name"] = "姓名"
+	m["Method"] = "方法"
+	m["Path"] = "路径"
+	m["Category"] = "分类"
 	// 参数校验
-	err = common.NewValidatorError(common.Validate.Struct(req), req.FieldTrans())
+	err = common.NewValidatorError(common.Validate.Struct(req), m)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
 	// 记录当前创建人信息
 	req.Creator = user.(system.SysUser).Name
-	// 创建服务
-	s := service.New()
 	err = s.CreateApi(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // UpdateApiById doc
@@ -123,59 +120,52 @@ func CreateApi(c *gin.Context) {
 // @Produce json
 // @Param apiId path int true "apiId"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/api/update/:apiId [patch]
 func UpdateApiById(c *gin.Context) {
 	// 绑定参数
 	var req gin.H
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
 
 	// 获取path中的apiId
 	apiId := utils.Str2Uint(c.Param("apiId"))
 	if apiId == 0 {
-		response.FailWithMsg("接口编号不正确")
+		common.FailWithMsg("接口编号不正确")
 		return
 	}
-	// 创建服务
-	s := service.New()
-	// 更新数据
 	err = s.UpdateApiById(apiId, req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // BatchDeleteApiByIds doc
 // @Summary Delete /api/v1/api/delete
 // @Description 根据ID批量删除api
 // @Produce json
-// @Param data body request.IdsReq true "ids"
+// @Param data body common.IdsReq true "ids"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/api/delete [delete]
 func BatchDeleteApiByIds(c *gin.Context) {
-	var req request.IdsReq
+	var req common.IdsReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
-	// 创建服务
-	s := service.New()
-	// 删除数据
 	err = s.DeleteApiByIds(req.Ids)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }

@@ -3,8 +3,7 @@ package k8s
 import (
 	"context"
 	"fmt"
-	"go-xops/internal/request/k8s"
-	"go-xops/internal/response"
+	k8s "go-xops/internal/service/k8s"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 
@@ -28,14 +27,14 @@ import (
 // @Param namespace query string false "namespace"
 // @Param containerport query int false "containerport"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/k8s/deployment/create [post]
 func CreateDeplooyment(c *gin.Context) {
 	var req k8s.DeploymentReq
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
 	deployment := &appsv1.Deployment{
@@ -71,10 +70,10 @@ func CreateDeplooyment(c *gin.Context) {
 	}
 	data, err := common.ClientSet.AppsV1().Deployments(req.NameSpace).Create(context.TODO(), deployment, v1.CreateOptions{})
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.SuccessWithMsg(data.GetObjectMeta().GetName())
+	common.SuccessWithMsg(data.GetObjectMeta().GetName())
 }
 
 // UpdateDeployment doc
@@ -87,14 +86,14 @@ func CreateDeplooyment(c *gin.Context) {
 // @Param namespace query string false "namespace"
 // @Param containerport query int false "containerport"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/k8s/deployment/update [patch]
 func UpdateDeployment(c *gin.Context) {
 	var req k8s.UpDeploymentReq
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
@@ -113,5 +112,5 @@ func UpdateDeployment(c *gin.Context) {
 	if retryErr != nil {
 		panic(fmt.Errorf("Update failed: %v", retryErr))
 	}
-	response.SuccessWithMsg("滚动更新成功")
+	common.SuccessWithMsg("滚动更新成功")
 }

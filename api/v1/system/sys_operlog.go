@@ -2,10 +2,9 @@ package system
 
 import (
 	"go-xops/assets/system"
-	"go-xops/internal/request"
-	"go-xops/internal/response"
-	"go-xops/internal/service"
+	s "go-xops/internal/service/system"
 	"go-xops/pkg/cache"
+	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 	"strconv"
 	"time"
@@ -24,15 +23,15 @@ import (
 // @Param username query string false "username"
 // @Param ip query string false "ip"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/operlog/list [get]
 func GetOperLogs(c *gin.Context) {
 	// 绑定参数
-	var req request.OperLogListReq
+	var req s.OperLogListReq
 	reqErr := c.Bind(&req)
 	if reqErr != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
 	var operationLogs []system.SysOperLog
@@ -46,27 +45,25 @@ func GetOperLogs(c *gin.Context) {
 		strconv.Itoa(int(req.Current)) + ":" + strconv.Itoa(int(req.PageSize)) + ":" + strconv.Itoa(int(req.Total))
 
 	cache.DBGetter = func() interface{} {
-		// 创建服务
-		s := service.New()
 		operationLogs, err = s.GetOperLogs(&req)
 		return operationLogs
 	}
 	// 获取缓存
 	cache.Get(key)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	// 转为ResponseStruct, 隐藏部分字段
-	var respStruct []response.OperationLogListResp
+	// 转为commonStruct, 隐藏部分字段
+	var respStruct []s.OperationLogListResp
 	utils.Struct2StructByJson(operationLogs, &respStruct)
 	// 返回分页数据
-	var resp response.PageData
+	var resp common.PageData
 	// 设置分页参数
 	resp.PageInfo = req.PageInfo
 	// 设置数据列表
 	resp.DataList = respStruct
-	response.SuccessWithData(resp)
+	common.SuccessWithData(resp)
 }
 
 // BatchDeleteOperLogByIds doc
@@ -75,24 +72,20 @@ func GetOperLogs(c *gin.Context) {
 // @Produce json
 // @Param data body request.IdsReq true "ids"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/operlog/delete [delete]
 func BatchDeleteOperLogByIds(c *gin.Context) {
-	var req request.IdsReq
+	var req common.IdsReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
-	// 创建服务
-	s := service.New()
-	// 删除数据
 	err = s.DeleteOperationLogByIds(req.Ids)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }

@@ -2,9 +2,7 @@ package system
 
 import (
 	"go-xops/assets/system"
-	"go-xops/internal/request"
-	"go-xops/internal/response"
-	"go-xops/internal/service"
+	s "go-xops/internal/service/system"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 
@@ -16,21 +14,20 @@ import (
 // @Description 当前用户菜单树
 // @Produce json
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/menu/tree [get]
 func GetUserMenuTree(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
-	s := service.New()
 	menus, err := s.GetUserMenuList(user.(system.SysUser).RoleId)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	var resp []response.MenuTreeResp
+	var resp []s.MenuTreeResp
 	// 转换成树结构
-	resp = service.GenMenuTree(nil, menus)
-	response.SuccessWithData(resp)
+	resp = s.GenMenuTree(nil, menus)
+	common.SuccessWithData(resp)
 }
 
 // GetMenus doc
@@ -38,15 +35,13 @@ func GetUserMenuTree(c *gin.Context) {
 // @Description 查询所有菜单
 // @Produce json
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
 // @Router /api/v1/menu/list [get]
 func GetMenus(c *gin.Context) {
-	// 创建服务
-	s := service.New()
 	menus := s.GetMenus()
-	var resp []response.MenuTreeResp
-	resp = service.GenMenuTree(nil, menus)
-	response.SuccessWithData(resp)
+	var resp []s.MenuTreeResp
+	resp = s.GenMenuTree(nil, menus)
+	common.SuccessWithData(resp)
 }
 
 // CreateMenu doc
@@ -55,35 +50,34 @@ func GetMenus(c *gin.Context) {
 // @Produce json
 // @Param data body request.CreateMenuReq true "name, icon, path, sort, parent_id, creator"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/menu/create [post]
 func CreateMenu(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
-	var req request.CreateMenuReq
+	var req s.CreateMenuReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
+	m := make(map[string]string, 0)
+	m["Name"] = "姓名"
 
 	// 参数校验
-	err = common.NewValidatorError(common.Validate.Struct(req), req.FieldTrans())
+	err = common.NewValidatorError(common.Validate.Struct(req), m)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	// 记录当前创建人信息
 	req.Creator = user.(system.SysUser).Name
-	// 创建服务
-	s := service.New()
 	err = s.CreateMenu(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // UpdateMenuById doc
@@ -92,33 +86,30 @@ func CreateMenu(c *gin.Context) {
 // @Produce json
 // @Param data body request.UpdateMenuReq true "name, icon, path, sort, status, parent_id"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/menu/update/:menuId [patch]
 func UpdateMenuById(c *gin.Context) {
 	// 绑定参数
-	var req request.UpdateMenuReq
+	var req s.UpdateMenuReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
 
 	// 获取path中的menuId
 	menuId := utils.Str2Uint(c.Param("menuId"))
 	if menuId == 0 {
-		response.FailWithMsg("菜单编号不正确")
+		common.FailWithMsg("菜单编号不正确")
 		return
 	}
-	// 创建服务
-	s := service.New()
-	// 更新数据
 	err = s.UpdateMenuById(menuId, req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // BatchDeleteMenuByIds doc
@@ -127,24 +118,20 @@ func UpdateMenuById(c *gin.Context) {
 // @Produce json
 // @Param data body request.IdsReq true "ids"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/menu/delete [delete]
 func BatchDeleteMenuByIds(c *gin.Context) {
-	var req request.IdsReq
+	var req common.IdsReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
-	// 创建服务
-	s := service.New()
-	// 删除数据
 	err = s.DeleteMenuByIds(req.Ids)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }

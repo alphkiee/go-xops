@@ -2,9 +2,8 @@ package k8s
 
 import (
 	"context"
-	"go-xops/internal/request/k8s"
-	"go-xops/internal/response"
 	k8ss "go-xops/internal/service/k8s"
+	"go-xops/pkg/common"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,22 +17,22 @@ import (
 // @Param name query string false "name"
 // @Param format query string false "format"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/k8s/application [post]
 func GetApplication(c *gin.Context) {
-	var req k8s.ApplicationReq
+	var req k8ss.ApplicationReq
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
 	res, err := k8ss.GetApplication(context.TODO(), req.NameSpace, req.ID, req.Name, req.Format)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.SuccessWithData(res)
+	common.SuccessWithData(res)
 }
 
 // GetApplications doc
@@ -41,13 +40,13 @@ func GetApplication(c *gin.Context) {
 // @Description 获取所有applications
 // @Produce json
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/k8s/application/list [get]
 func GetApplications(c *gin.Context) {
 	res, err := k8ss.GetApplications(context.TODO())
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 	}
-	response.SuccessWithData(res)
+	common.SuccessWithData(res)
 }

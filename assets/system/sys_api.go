@@ -11,7 +11,6 @@ type SysApi struct {
 	Category string `gorm:"comment:'所属类别';size:128" json:"category"`
 	Desc     string `gorm:"comment:'说明';size:128" json:"desc"`
 	Creator  string `gorm:"comment:'创建人';size:64" json:"creator"`
-	//Roles      []SysRole `gorm:"many2many:relation_role_api;" json:"roles"` // 角色接口多对多关系
 }
 
 func (m SysApi) TableName() string {

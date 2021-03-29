@@ -1,9 +1,8 @@
 package cmdb
 
 import (
-	"go-xops/internal/response"
-	"go-xops/internal/service"
 	"go-xops/internal/service/cmd"
+	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 	"io/ioutil"
 	"log"
@@ -48,14 +47,13 @@ func CmdExec(c *gin.Context) {
 	var req gin.H
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 	}
 
 	ids := utils.Str2UintArr(c.Param("ids"))
 	cmds := utils.Str2Arr(c.Param("cmds"))
 
-	s := service.New()
-	hosts, err := s.GetHostByIds(ids)
+	hosts, err := cmd.GetHostByIds(ids)
 	hostNum := len(hosts)
 	//fail需要优化，切片不够大，暂时只能给具体值
 	fail := &cmd.Counter{Hosts: make([]string, hostNum)}
@@ -80,7 +78,7 @@ func CmdExec(c *gin.Context) {
 				wg.Add(1)
 				go func(v string) {
 					_, rep := ssh.CmdExec(v)
-					s := &response.CmdRep{
+					s := &cmd.CmdRep{
 						IP:     ip,
 						Cmd:    v,
 						Stdout: rep,
@@ -101,7 +99,7 @@ func CmdExec(c *gin.Context) {
 	wg.Wait()
 
 	logrus.Printf(summary, hostNum, hostNum-fail.Data, fail.Data)
-	response.SuccessWithData(res)
+	common.SuccessWithData(res)
 }
 
 func Sftp(c *gin.Context) {
@@ -113,11 +111,9 @@ func Sftp(c *gin.Context) {
 	ids := utils.Str2UintArr(c.PostForm("ids"))
 	srcPath := utils.Str2Arr(c.PostForm("srcPath"))
 	dstPath := utils.Str2Arr(c.PostForm("dstPath"))
-
-	s := service.New()
-	hosts, err := s.GetHostByIds(ids)
+	hosts, err := cmd.GetHostByIds(ids)
 	if err != nil {
-		response.FailWithMsg("服务器内部错误")
+		common.FailWithMsg("服务器内部错误")
 	}
 	for _, host := range hosts {
 		port, _ := strconv.Atoi(host.Port)
@@ -137,7 +133,7 @@ func Sftp(c *gin.Context) {
 		}
 	}
 	wg.Wait()
-	response.Success()
+	common.Success()
 
 }
 
@@ -151,10 +147,9 @@ func SftpDow(c *gin.Context) {
 	srcPath := c.PostForm("srcPath")
 	dstPath := c.PostForm("dstPath")
 
-	s := service.New()
-	hosts, err := s.GetHostByIds(ids)
+	hosts, err := cmd.GetHostByIds(ids)
 	if err != nil {
-		response.FailWithMsg("服务器内部错误")
+		common.FailWithMsg("服务器内部错误")
 	}
 	for _, host := range hosts {
 		port, _ := strconv.Atoi(host.Port)
@@ -173,6 +168,6 @@ func SftpDow(c *gin.Context) {
 		}
 	}
 	wg.Wait()
-	response.Success()
+	common.Success()
 
 }

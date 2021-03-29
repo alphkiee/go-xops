@@ -2,9 +2,7 @@ package system
 
 import (
 	"go-xops/assets/system"
-	"go-xops/internal/request"
-	"go-xops/internal/response"
-	"go-xops/internal/service"
+	s "go-xops/internal/service/system"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 
@@ -17,27 +15,25 @@ import (
 // @Produce json
 // @Param data body request.DictListReq true "key, value, desc, creator, status, type_key"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
 // @Router /api/v1/dict/list [get]
 func GetDicts(c *gin.Context) {
 	// 绑定参数
-	var req request.DictListReq
+	var req s.DictListReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-	// 创建服务
-	s := service.New()
 	dicts := s.GetDicts(&req)
 	if req.Key != "" || req.Value != "" || req.Status != nil || req.TypeKey != "" {
-		var newResp []response.DictTreeResp
+		var newResp []s.DictTreeResp
 		utils.Struct2StructByJson(dicts, &newResp)
-		response.SuccessWithData(newResp)
+		common.SuccessWithData(newResp)
 	} else {
-		var resp []response.DictTreeResp
-		resp = service.GenDictTree(nil, dicts)
-		response.SuccessWithData(resp)
+		var resp []s.DictTreeResp
+		resp = s.GenDictTree(nil, dicts)
+		common.SuccessWithData(resp)
 	}
 }
 
@@ -47,35 +43,34 @@ func GetDicts(c *gin.Context) {
 // @Produce json
 // @Param data body request.CreateDictReq true "key, value, desc, parent_id, creator"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/dict/create [post]
 func CreateDict(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
-	var req request.CreateDictReq
+	var req s.CreateDictReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
-	// 参数校验
-	err = common.NewValidatorError(common.Validate.Struct(req), req.FieldTrans())
+	m := make(map[string]string, 0)
+	m["Key"] = "键"
+	m["Value"] = "值"
+	err = common.NewValidatorError(common.Validate.Struct(req), m)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
 	// 记录当前创建人信息
 	req.Creator = user.(system.SysUser).Name
-	// 创建服务
-	s := service.New()
 	err = s.CreateDict(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // UpdateDictById doc
@@ -84,31 +79,28 @@ func CreateDict(c *gin.Context) {
 // @Produce json
 // @Param data body request.UpdateDictReq true "key, value, desc, parent_id, status"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/dict/update/:dictId [patch]
 func UpdateDictById(c *gin.Context) {
 	// 绑定参数
-	var req request.UpdateDictReq
+	var req s.UpdateDictReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
 	dictId := utils.Str2Uint(c.Param("dictId"))
 	if dictId == 0 {
-		response.FailWithMsg("字典编号不正确")
+		common.FailWithMsg("字典编号不正确")
 		return
 	}
-	// 创建服务
-	s := service.New()
-	// 更新数据
 	err = s.UpdateDictById(dictId, req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // BatchDeleteDictByIds doc
@@ -117,24 +109,20 @@ func UpdateDictById(c *gin.Context) {
 // @Produce json
 // @Param data body request.IdsReq true "ids"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/dict/delete [delete]
 func BatchDeleteDictByIds(c *gin.Context) {
-	var req request.IdsReq
+	var req common.IdsReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
-	// 创建服务
-	s := service.New()
-	// 删除数据
 	err = s.DeleteDictByIds(req.Ids)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }

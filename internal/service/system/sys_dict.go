@@ -1,11 +1,9 @@
-package service
+package system
 
 import (
 	"errors"
 	"fmt"
 	"go-xops/assets/system"
-	"go-xops/internal/request"
-	"go-xops/internal/response"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 	"strings"
@@ -13,8 +11,46 @@ import (
 	"gorm.io/gorm"
 )
 
+// 创建字典结构体
+type CreateDictReq struct {
+	Key      string `json:"key" validate:"required"`
+	Value    string `json:"value" validate:"required"`
+	Desc     string `json:"desc"`
+	ParentId uint   `json:"parent_id"`
+	Creator  string `json:"creator"`
+}
+
+// 修改字典
+type UpdateDictReq struct {
+	Key      string `json:"key" validate:"required"`
+	Value    string `json:"value" validate:"required"`
+	Desc     string `json:"desc"`
+	ParentId uint   `json:"parent_id"`
+	Status   *bool  `json:"status"`
+}
+
+type DictListReq struct {
+	Key     string `json:"key" form:"key"`
+	Value   string `json:"value" form:"value"`
+	Desc    string `json:"desc" form:"desc"`
+	Creator string `json:"creator" form:"creator"`
+	Status  *bool  `json:"status" form:"status"`
+	TypeKey string `json:"type_key" form:"type_key"`
+}
+
+type DictTreeResp struct {
+	Id       uint           `json:"id"`
+	ParentId uint           `json:"parent_id"`
+	Key      string         `json:"key"`
+	Value    string         `json:"value"`
+	Desc     string         `json:"desc"`
+	Creator  string         `json:"creator"`
+	Status   bool           `json:"status"`
+	Children []DictTreeResp `json:"children,omitempty"` //tag:omitempty 为空的值不显示
+}
+
 // 获取所有字典信息
-func (s *MysqlService) GetDicts(req *request.DictListReq) []system.SysDict {
+func GetDicts(req *DictListReq) []system.SysDict {
 	Dicts := make([]system.SysDict, 0)
 	db := common.Mysql
 	typeKey := strings.TrimSpace(req.TypeKey)
@@ -48,9 +84,9 @@ func (s *MysqlService) GetDicts(req *request.DictListReq) []system.SysDict {
 }
 
 // 生成字典树
-func GenDictTree(parent *response.DictTreeResp, Dicts []system.SysDict) []response.DictTreeResp {
-	tree := make([]response.DictTreeResp, 0)
-	var resp []response.DictTreeResp
+func GenDictTree(parent *DictTreeResp, Dicts []system.SysDict) []DictTreeResp {
+	tree := make([]DictTreeResp, 0)
+	var resp []DictTreeResp
 	utils.Struct2StructByJson(Dicts, &resp)
 	// parentId默认为0, 表示根菜单
 	var parentId uint
@@ -70,21 +106,21 @@ func GenDictTree(parent *response.DictTreeResp, Dicts []system.SysDict) []respon
 }
 
 // 创建字典
-func (s *MysqlService) CreateDict(req *request.CreateDictReq) (err error) {
+func CreateDict(req *CreateDictReq) (err error) {
 	var Dict system.SysDict
 	utils.Struct2StructByJson(req, &Dict)
 	// 创建数据
-	err = s.db.Create(&Dict).Error
+	err = common.Mysql.Create(&Dict).Error
 	return
 }
 
 // 更新字典
-func (s *MysqlService) UpdateDictById(id uint, req request.UpdateDictReq) (err error) {
+func UpdateDictById(id uint, req UpdateDictReq) (err error) {
 	if id == req.ParentId {
 		return errors.New("不能自关联")
 	}
 	var oldDict system.SysDict
-	query := s.db.Table(oldDict.TableName()).Where("id = ?", id).First(&oldDict)
+	query := common.Mysql.Table(oldDict.TableName()).Where("id = ?", id).First(&oldDict)
 	if query.Error == gorm.ErrRecordNotFound {
 		return errors.New("记录不存在")
 	}
@@ -97,15 +133,15 @@ func (s *MysqlService) UpdateDictById(id uint, req request.UpdateDictReq) (err e
 }
 
 // 批量删除字典
-func (s *MysqlService) DeleteDictByIds(ids []uint) (err error) {
+func DeleteDictByIds(ids []uint) (err error) {
 	var Dict system.SysDict
 	// 先解除父级关联
-	err = s.db.Table(Dict.TableName()).Where("parent_id IN (?)", ids).Update("parent_id", 0).Error
+	err = common.Mysql.Table(Dict.TableName()).Where("parent_id IN (?)", ids).Update("parent_id", 0).Error
 	if err != nil {
 		return err
 	}
 	// 再删除
-	err = s.db.Where("id IN (?)", ids).Delete(&Dict).Error
+	err = common.Mysql.Where("id IN (?)", ids).Delete(&Dict).Error
 	if err != nil {
 		return err
 	}

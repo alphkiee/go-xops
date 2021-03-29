@@ -1,10 +1,68 @@
-package response
+package common
 
-import (
-	"go-xops/pkg/common"
+import "github.com/gin-gonic/gin"
 
-	"github.com/gin-gonic/gin"
+// 自定义错误码与错误信息
+
+const (
+	// Ok ...
+	Ok = 200
+	// NotOk ...
+	NotOk = 400
+	// Unauthorized ...
+	Unauthorized = 401
+	// Forbidden ...
+	Forbidden = 403
+	// ParmError ...
+	ParmError = 406
+	// InternalServerError ...
+	InternalServerError = 500
+	// AuthError ...
+	AuthError = 1000
+	// UserForbidden ...
+	UserForbidden = 1001
 )
+
+const (
+	// OkMsg ...
+	OkMsg = "操作成功"
+	// NotOkMsg ...
+	NotOkMsg = "操作失败"
+	// UnauthorizedMsg ...
+	UnauthorizedMsg = "登录过期, 需要重新登录"
+	// LoginCheckErrorMsg ...
+	LoginCheckErrorMsg = "用户名或密码错误"
+	// ForbiddenMsg ...
+	ForbiddenMsg = "无权访问该资源"
+	// InternalServerErrorMsg ...
+	InternalServerErrorMsg = "服务器内部错误"
+	// ParmErrorMsg ...
+	ParmErrorMsg = "参数绑定失败, 请检查数据类型"
+	// UserForbiddenMsg ...
+	UserForbiddenMsg = "用户已被禁用"
+)
+
+// CustomError ...
+var CustomError = map[int]string{
+	Ok:                  OkMsg,
+	NotOk:               NotOkMsg,
+	Unauthorized:        UnauthorizedMsg,
+	Forbidden:           ForbiddenMsg,
+	InternalServerError: InternalServerErrorMsg,
+	AuthError:           LoginCheckErrorMsg,
+	ParmError:           ParmErrorMsg,
+	UserForbidden:       UserForbiddenMsg,
+}
+
+// 适用于前端传过来的
+type IdsReq struct {
+	Ids []uint `json:"ids" form:"ids"` // 传多个id
+}
+
+// 适用于前端传过来的
+type KeyReq struct {
+	Key string `json:"key" form:"key"` // 传多个id
+}
 
 // RespInfo ...http请求响应封装
 type RespInfo struct {
@@ -20,66 +78,6 @@ type RespPageInfo struct {
 	Status  bool        `json:"status"`  // 状态
 	Data    interface{} `json:"data"`    // 数据内容
 	Message string      `json:"message"` // 消息提示
-}
-
-// PageInfo ...分页封装
-type PageInfo struct {
-	Current  uint  `json:"current" form:"current"`   // 当前页码
-	PageSize uint  `json:"pageSize" form:"pageSize"` // 每页显示条数
-	Total    int64 `json:"total"`                    // 数据总条数
-	All      bool  `json:"all" form:"all"`           // 不使用分页
-}
-
-// PageData ....带分页数据封装
-type PageData struct {
-	PageInfo
-	DataList interface{} `json:"data"` // 数据列表
-}
-
-// GetLimit ...计算limit/offset, 如果需要用到返回的PageSize, PageNum, 务必保证Total值有效
-func (s *PageInfo) GetLimit() (int, int) {
-	// 传入参数可能不合法, 设置默认值
-	var pageSize int64
-	var current int64
-	total := s.Total
-	// 每页显示条数不能小于1
-	if s.PageSize < 1 {
-		pageSize = 10
-	} else {
-		pageSize = int64(s.PageSize)
-	}
-	// 页码不能小于1
-	if s.Current < 1 {
-		current = 1
-	} else {
-		current = int64(s.Current)
-	}
-
-	// 如果偏移量比总条数还多
-	if total > 0 && current > total {
-		current = total
-	}
-
-	// 计算最大页码
-	maxPageNum := total/pageSize + 1
-	if total%pageSize == 0 {
-		maxPageNum = total / pageSize
-	}
-	// 页码不能小于1
-	if maxPageNum < 1 {
-		maxPageNum = 1
-	}
-
-	// 超出最后一页
-	if current > maxPageNum {
-		current = maxPageNum
-	}
-
-	limit := pageSize
-	offset := limit * (current - 1)
-
-	// gorm v2参数从interface改为int, 这里也需要相应改变
-	return int(limit), int(offset)
 }
 
 // Result ...
@@ -144,5 +142,5 @@ func JSON(c *gin.Context, code int, resp interface{}) {
 	// 调用gin写入json
 	c.JSON(code, resp)
 	// 保存响应对象到context, Operation Log会读取到
-	c.Set(common.Conf.System.OperationLogKey, resp)
+	c.Set(Conf.System.OperationLogKey, resp)
 }

@@ -1,4 +1,4 @@
-package service
+package system
 
 import (
 	"go-xops/assets/system"
@@ -6,7 +6,7 @@ import (
 )
 
 // 获取符合条件的casbin规则, 按角色
-func (s *MysqlService) GetRoleCasbins(c system.SysRoleCasbin) []system.SysRoleCasbin {
+func GetRoleCasbins(c system.SysRoleCasbin) []system.SysRoleCasbin {
 	e := common.Casbin
 	policies := e.GetFilteredPolicy(0, c.Keyword, c.Path, c.Method)
 	cs := make([]system.SysRoleCasbin, 0)
@@ -21,13 +21,13 @@ func (s *MysqlService) GetRoleCasbins(c system.SysRoleCasbin) []system.SysRoleCa
 }
 
 // 创建一条casbin规则, 按角色
-func (s *MysqlService) CreateRoleCasbin(c system.SysRoleCasbin) (bool, error) {
+func CreateRoleCasbin(c system.SysRoleCasbin) (bool, error) {
 	e := common.Casbin
 	return e.AddPolicy(c.Keyword, c.Path, c.Method)
 }
 
 // 批量创建多条casbin规则, 按角色
-func (s *MysqlService) BatchCreateRoleCasbins(cs []system.SysRoleCasbin) (bool, error) {
+func BatchCreateRoleCasbins(cs []system.SysRoleCasbin) (bool, error) {
 	e := common.Casbin
 	// 按角色构建
 	rules := make([][]string, 0)
@@ -42,13 +42,13 @@ func (s *MysqlService) BatchCreateRoleCasbins(cs []system.SysRoleCasbin) (bool, 
 }
 
 // 删除一条casbin规则, 按角色
-func (s *MysqlService) DeleteRoleCasbin(c system.SysRoleCasbin) (bool, error) {
+func DeleteRoleCasbin(c system.SysRoleCasbin) (bool, error) {
 	e := common.Casbin
 	return e.RemovePolicy(c.Keyword, c.Path, c.Method)
 }
 
 // 批量删除多条casbin规则, 按角色
-func (s *MysqlService) BatchDeleteRoleCasbins(cs []system.SysRoleCasbin) (bool, error) {
+func BatchDeleteRoleCasbins(cs []system.SysRoleCasbin) (bool, error) {
 	e := common.Casbin
 	// 按角色构建
 	rules := make([][]string, 0)
@@ -63,10 +63,10 @@ func (s *MysqlService) BatchDeleteRoleCasbins(cs []system.SysRoleCasbin) (bool, 
 }
 
 // 根据权限编号读取casbin规则
-func (s *MysqlService) GetCasbinListByRoleId(roleId uint) ([]system.SysCasbin, error) {
+func GetCasbinListByRoleId(roleId uint) ([]system.SysCasbin, error) {
 	casbins := make([]system.SysCasbin, 0)
 	var role system.SysRole
-	err := s.db.Where("id = ?", roleId).First(&role).Error
+	err := common.Mysql.Where("id = ?", roleId).First(&role).Error
 	if err != nil {
 		return casbins, err
 	}

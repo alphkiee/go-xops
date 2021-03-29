@@ -3,7 +3,6 @@ package middleware
 import (
 	v1 "go-xops/api/v1/system"
 	"go-xops/assets/system"
-	"go-xops/internal/response"
 	"go-xops/pkg/common"
 	"strings"
 
@@ -25,7 +24,7 @@ func CasbinMiddleware(c *gin.Context) {
 	// 检查策略
 	pass, _ := e.Enforce(sub, obj, act)
 	if !pass {
-		response.FailWithCode(response.Forbidden)
+		common.FailWithCode(common.Forbidden)
 	}
 	// 处理请求
 	c.Next()

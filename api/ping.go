@@ -1,7 +1,7 @@
 package api
 
 import (
-	"go-xops/internal/response"
+	"go-xops/pkg/common"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,5 +13,5 @@ import (
 // @Success 200 {object} response.RespInfo
 // @Router /api/ping [get]
 func Ping(c *gin.Context) {
-	response.Success()
+	common.Success()
 }

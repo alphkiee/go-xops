@@ -2,9 +2,7 @@ package system
 
 import (
 	"go-xops/assets/system"
-	"go-xops/internal/request"
-	"go-xops/internal/response"
-	"go-xops/internal/service"
+	s "go-xops/internal/service/system"
 	"go-xops/pkg/cache"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
@@ -22,7 +20,7 @@ func GetCurrentUserFromCache(c *gin.Context) interface{} {
 	if !exists {
 		return newUser
 	}
-	u, _ := user.(response.LoginResp)
+	u, _ := user.(s.LoginResp)
 	// 创建缓存对象
 	cache, err := cache.New(time.Second * 15)
 	if err != nil {
@@ -30,8 +28,6 @@ func GetCurrentUserFromCache(c *gin.Context) interface{} {
 	}
 	key := "user:" + u.Username
 	cache.DBGetter = func() interface{} {
-		// 创建mysql服务
-		s := service.New()
 		newUser, _ = s.GetUserById(u.Id)
 		return newUser
 	}
@@ -45,14 +41,14 @@ func GetCurrentUserFromCache(c *gin.Context) interface{} {
 // @Description 获取当前用户信息
 // @Produce json
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
 // @Router /api/v1/user/info [get]
 func GetUserInfo(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 转为UserInfoResponseStruct, 隐藏部分字段
-	var resp response.UserInfoResp
+	var resp s.UserInfoResp
 	utils.Struct2StructByJson(user, &resp)
-	response.SuccessWithData(resp)
+	common.SuccessWithData(resp)
 }
 
 // CreateUser doc
@@ -61,34 +57,34 @@ func GetUserInfo(c *gin.Context) {
 // @Produce json
 // @Param data body request.CreateUserReq true "username, password, name, role_id"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/user/create [post]
 func CreateUser(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
-	// 绑定参数
-	var req request.CreateUserReq
+	var req s.CreateUserReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	// 参数校验
-	err = common.NewValidatorError(common.Validate.Struct(req), req.FieldTrans())
+	m := make(map[string]string, 0)
+	m["Username"] = "用户名"
+	m["Password"] = "密码"
+	m["Name"] = "姓名"
+	m["RoleId"] = "角色id"
+	err = common.NewValidatorError(common.Validate.Struct(req), m)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	// 断言，创建结构体获取当前创建人信息
 	req.Creator = user.(system.SysUser).Name
-	// 创建服务
-	s := service.New()
 	err = s.CreateUser(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // GetUsers doc
@@ -102,35 +98,31 @@ func CreateUser(c *gin.Context) {
 // @Param creator query string false "creator"
 // @Param dept_id query string false "dept_id"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/user/list [get]
 func GetUsers(c *gin.Context) {
 	// 绑定参数
-	var req request.UserListReq
+	var req s.UserListReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
-	// 创建服务
-	s := service.New()
 	users, err := s.GetUsers(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	// 转为ResponseStruct, 隐藏部分字段
-	var respStruct []response.UserListResp
+	var respStruct []s.UserListResp
 	utils.Struct2StructByJson(users, &respStruct)
 	// 返回分页数据
-	var resp response.PageData
+	var resp common.PageData
 	// 设置分页参数
 	resp.PageInfo = req.PageInfo
 	// 设置数据列表
 	resp.DataList = respStruct
-	response.SuccessWithData(resp)
+	common.SuccessWithData(resp)
 
 }
 
@@ -141,38 +133,37 @@ func GetUsers(c *gin.Context) {
 // @Param userId path int true "userId"
 // @Param data body request.UpdateUserBaseInfoReq true "mobile, name, email"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/user/info/update/{userId} [patch]
 func UpdateUserBaseInfoById(c *gin.Context) {
 	// 绑定参数
-	var req request.UpdateUserBaseInfoReq
+	var req s.UpdateUserBaseInfoReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-	// 参数校验
-	err = common.NewValidatorError(common.Validate.Struct(req), req.FieldTrans())
+	m := make(map[string]string, 0)
+	m["Mobile"] = "手机"
+	m["Name"] = "姓名"
+	m["Email"] = "邮箱"
+	err = common.NewValidatorError(common.Validate.Struct(req), m)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	// 获取url path中的userId
 	userId := utils.Str2Uint(c.Param("userId"))
 	if userId == 0 {
-		response.FailWithMsg("用户编号不正确")
+		common.FailWithMsg("用户编号不正确")
 		return
 	}
-	// 创建服务
-	s := service.New()
-	// 更新数据
 	err = s.UpdateUserBaseInfoById(userId, req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // UpdateUserById doc
@@ -182,38 +173,35 @@ func UpdateUserBaseInfoById(c *gin.Context) {
 // @Param userId path int true "userId"
 // @Param data body request.UpdateUserReq true "mobile, name, email, password"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/user/update/{userId} [patch]
 func UpdateUserById(c *gin.Context) {
 	// 绑定参数
-	var req request.UpdateUserReq
+	var req s.UpdateUserReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-	// 参数校验
-	err = common.NewValidatorError(common.Validate.Struct(req), req.FieldTrans())
+	m := make(map[string]string, 0)
+	m["Name"] = "姓名"
+	err = common.NewValidatorError(common.Validate.Struct(req), m)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	// 获取url path中的userId
 	userId := utils.Str2Uint(c.Param("userId"))
 	if userId == 0 {
-		response.FailWithMsg("用户编号不正确")
+		common.FailWithMsg("用户编号不正确")
 		return
 	}
-	// 创建服务
-	s := service.New()
-	// 更新数据
 	err = s.UpdateUserById(userId, req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // ChangePwd doc
@@ -222,33 +210,30 @@ func UpdateUserById(c *gin.Context) {
 // @Produce json
 // @Param data body request.ChangePwdReq true "old_password, new_password"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/user/changePwd [put]
 func ChangePwd(c *gin.Context) {
 	var msg string
-	// 请求json绑定
-	var req request.ChangePwdReq
+	var req s.ChangePwdReq
 	_ = c.ShouldBindJSON(&req)
-	// 参数校验
-	err := common.NewValidatorError(common.Validate.Struct(req), req.FieldTrans())
+	m := make(map[string]string, 0)
+	m["OldPassword"] = "旧密码"
+	m["NewPassword"] = "新密码"
+	err := common.NewValidatorError(common.Validate.Struct(req), m)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	// 获取当前用户
 	user := GetCurrentUserFromCache(c)
 	query := common.Mysql.Where("username = ?", user.(system.SysUser).Username).First(&user)
-	// 查询用户
 	err = query.Error
 	if err != nil {
 		msg = err.Error()
 	} else {
-		// 校验密码
 		if ok := utils.ComparePwd(req.OldPassword, user.(system.SysUser).Password); !ok {
 			msg = "原密码错误"
 		} else {
-			// 更新密码
 			err = query.Update("password", utils.GenPwd(req.NewPassword)).Error
 			if err != nil {
 				msg = err.Error()
@@ -256,10 +241,10 @@ func ChangePwd(c *gin.Context) {
 		}
 	}
 	if msg != "" {
-		response.FailWithMsg(msg)
+		common.FailWithMsg(msg)
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // DeleteUserByIds doc
@@ -268,26 +253,22 @@ func ChangePwd(c *gin.Context) {
 // @Produce json
 // @Param data body request.IdsReq true "ids"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/user/delete [delete]
 func DeleteUserByIds(c *gin.Context) {
-	var req request.IdsReq
+	var req common.IdsReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
-	// 创建服务
-	s := service.New()
-	// 删除数据
 	err = s.DeleteUserByIds(req.Ids)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // UserAvatarUpload doc
@@ -296,20 +277,20 @@ func DeleteUserByIds(c *gin.Context) {
 // @Produce json
 // @Param avatar formData file true "avatar"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/user/info/uploadImg [post]
 func UserAvatarUpload(c *gin.Context) {
 	// 限制头像2MB(二进制移位xxxMB)
 	err := c.Request.ParseMultipartForm(2 << 20)
 	if err != nil {
-		response.FailWithMsg("文件为空或图片大小超出最大值2MB")
+		common.FailWithMsg("文件为空或图片大小超出最大值2MB")
 		return
 	}
 	// 读取文件
 	file, err := c.FormFile("avatar")
 	if err != nil {
-		response.FailWithMsg("无法读取文件")
+		common.FailWithMsg("无法读取文件")
 		return
 	}
 	user := GetCurrentUserFromCache(c)
@@ -318,19 +299,19 @@ func UserAvatarUpload(c *gin.Context) {
 	imgPath := common.Conf.Upload.SaveDir + "/avatar/" + fileName
 	err = c.SaveUploadedFile(file, imgPath)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
 	// 将头像url保存到数据库
 	query := common.Mysql.Where("username = ?", username).First(&user)
 	err = query.Update("avatar", "/"+imgPath).Error
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 	}
 	resp := map[string]string{
 		"name": fileName,
 		"url":  "/" + imgPath,
 	}
 
-	response.SuccessWithData(resp)
+	common.SuccessWithData(resp)
 }

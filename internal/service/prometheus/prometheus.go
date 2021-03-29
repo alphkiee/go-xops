@@ -2,7 +2,6 @@ package prometheus
 
 import (
 	"context"
-	"go-xops/internal/response"
 	"go-xops/pkg/common"
 	"os"
 	"sync"
@@ -15,17 +14,24 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func scalarV(v *model.Scalar) response.PmtRep {
-	var p response.PmtRep
+// PmtRep ...
+type PmtRep struct {
+	TimeStap string `json:"timestap"`
+	Value    string `json:"value"`
+	Metric   string `json:"metric"`
+}
+
+func scalarV(v *model.Scalar) PmtRep {
+	var p PmtRep
 	p.TimeStap = v.Timestamp.String()
 	p.Value = v.Value.String()
 	return p
 }
 
-func vectorV(v model.Vector) []response.PmtRep {
+func vectorV(v model.Vector) []PmtRep {
 	var (
-		ps []response.PmtRep
-		p  response.PmtRep
+		ps []PmtRep
+		p  PmtRep
 	)
 	for _, k := range v {
 		p.TimeStap = k.Timestamp.String()
@@ -36,10 +42,10 @@ func vectorV(v model.Vector) []response.PmtRep {
 	return ps
 }
 
-func matrixV(v model.Matrix) []response.PmtRep {
+func matrixV(v model.Matrix) []PmtRep {
 	var (
-		ps []response.PmtRep
-		p  response.PmtRep
+		ps []PmtRep
+		p  PmtRep
 	)
 	for _, i := range v {
 		for _, j := range i.Values {
@@ -51,8 +57,8 @@ func matrixV(v model.Matrix) []response.PmtRep {
 	return ps
 }
 
-func stringV(v *model.String) response.PmtRep {
-	var p response.PmtRep
+func stringV(v *model.String) PmtRep {
+	var p PmtRep
 	p.TimeStap = v.Timestamp.String()
 	p.Value = v.Value
 	return p
@@ -78,11 +84,11 @@ func justType(v model.Value) interface{} {
 	}
 }
 
-func PrometheusAPIQuery_Test(key, job []string) ([]response.PmtRep, error) {
+func PrometheusAPIQuery_Test(key, job []string) ([]PmtRep, error) {
 	var (
 		wg   sync.WaitGroup
 		i    int
-		data []response.PmtRep
+		data []PmtRep
 	)
 	add := common.Conf.PrometheusApiAddress.Address
 	if add == "" {
@@ -109,9 +115,9 @@ func PrometheusAPIQuery_Test(key, job []string) ([]response.PmtRep, error) {
 					os.Exit(1)
 				}
 				h := justType(value)
-				if value, ok := h.([]response.PmtRep); ok {
+				if value, ok := h.([]PmtRep); ok {
 					data = append(data, value...)
-				} else if value, ok := h.(response.PmtRep); ok {
+				} else if value, ok := h.(PmtRep); ok {
 					data = append(data, value)
 				} else {
 					errors.New("类型错误")

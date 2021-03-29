@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// 系统操作日志
+// SysOperLog ...
 type SysOperLog struct {
 	assets.Model
 	Name       string        `gorm:"comment:'接口名称';size:128" json:"name"`

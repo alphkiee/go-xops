@@ -42,6 +42,13 @@ type Counter struct {
 	Hosts []string
 }
 
+//CmdRep ...
+type CmdRep struct {
+	IP     string      `json:"ip"`
+	Cmd    string      `json:"cmd"`
+	Stdout interface{} `json:"stdout"`
+}
+
 func (c *Counter) Incre(host string) {
 	c.Lock()
 	defer c.Unlock()

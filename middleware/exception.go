@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"go-xops/internal/response"
+	"go-xops/pkg/common"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,20 +10,17 @@ import (
 func Exception(c *gin.Context) {
 	defer func() {
 		if err := recover(); err != nil {
-			// 判断是否正常http响应结果放通
-			if resp, ok := err.(response.RespInfo); ok {
-				response.JSON(c, response.Ok, resp)
+			if resp, ok := err.(common.RespInfo); ok {
+				common.JSON(c, common.Ok, resp)
 				c.Abort()
 				return
 			}
-			// 服务器异常
-			resp := response.RespInfo{
-				Code:    response.InternalServerError,
+			resp := common.RespInfo{
+				Code:    common.InternalServerError,
 				Data:    map[string]interface{}{},
-				Message: response.CustomError[response.InternalServerError],
+				Message: common.CustomError[common.InternalServerError],
 			}
-			// 以json方式写入响应
-			response.JSON(c, response.Ok, resp)
+			common.JSON(c, common.Ok, resp)
 			c.Abort()
 			return
 		}

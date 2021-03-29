@@ -2,9 +2,7 @@ package system
 
 import (
 	"go-xops/assets/system"
-	"go-xops/internal/request"
-	"go-xops/internal/response"
-	"go-xops/internal/service"
+	s "go-xops/internal/service/system"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
 
@@ -17,28 +15,26 @@ import (
 // @Produce json
 // @Param data body request.DeptListReq true "name, creator, status"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/dept/list [get]
 func GetDepts(c *gin.Context) {
 	// 绑定参数
-	var req request.DeptListReq
+	var req s.DeptListReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-	// 创建服务
-	s := service.New()
 	depts := s.GetDepts(&req)
 	if req.Name != "" || req.Status != nil {
-		var newResp []response.DictTreeResp
+		var newResp []s.DictTreeResp
 		utils.Struct2StructByJson(depts, &newResp)
-		response.SuccessWithData(newResp)
+		common.SuccessWithData(newResp)
 	} else {
-		var resp []response.DeptTreeResp
-		resp = service.GenDeptTree(nil, depts)
-		response.SuccessWithData(resp)
+		var resp []s.DeptTreeResp
+		resp = s.GenDeptTree(nil, depts)
+		common.SuccessWithData(resp)
 	}
 }
 
@@ -48,35 +44,34 @@ func GetDepts(c *gin.Context) {
 // @Produce json
 // @Param data body request.CreateDeptReq true "name, sort, parent_id, creator"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/dept/create [post]
 func CreateDept(c *gin.Context) {
 	user := GetCurrentUserFromCache(c)
 	// 绑定参数
-	var req request.CreateDeptReq
+	var req s.CreateDeptReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
+	m := make(map[string]string, 0)
+	m["Name"] = "姓名"
 	// 参数校验
-	err = common.NewValidatorError(common.Validate.Struct(req), req.FieldTrans())
+	err = common.NewValidatorError(common.Validate.Struct(req), m)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
 	// 记录当前创建人信息
 	req.Creator = user.(system.SysUser).Name
-	// 创建服务
-	s := service.New()
 	err = s.CreateDept(&req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // UpdateDeptById doc
@@ -85,31 +80,28 @@ func CreateDept(c *gin.Context) {
 // @Produce json
 // @Param data body request.UpdateDeptReq true "name, status, sort, parent_id"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/dept/update/:deptId [patch]
 func UpdateDeptById(c *gin.Context) {
 	// 绑定参数
-	var req request.UpdateDeptReq
+	var req s.UpdateDeptReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
 	deptId := utils.Str2Uint(c.Param("deptId"))
 	if deptId == 0 {
-		response.FailWithMsg("部门编号不正确")
+		common.FailWithMsg("部门编号不正确")
 		return
 	}
-	// 创建服务
-	s := service.New()
-	// 更新数据
 	err = s.UpdateDeptById(deptId, req)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }
 
 // BatchDeleteDeptByIds doc
@@ -118,24 +110,20 @@ func UpdateDeptById(c *gin.Context) {
 // @Produce json
 // @Param data body request.IdsReq true "ids"
 // @Security ApiKeyAuth
-// @Success 200 {object} response.RespInfo
-// @Failure 400 {object} response.RespInfo
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
 // @Router /api/v1/dept/delete [delete]
 func BatchDeleteDeptByIds(c *gin.Context) {
-	var req request.IdsReq
+	var req common.IdsReq
 	err := c.Bind(&req)
 	if err != nil {
-		response.FailWithCode(response.ParmError)
+		common.FailWithCode(common.ParmError)
 		return
 	}
-
-	// 创建服务
-	s := service.New()
-	// 删除数据
 	err = s.DeleteDeptByIds(req.Ids)
 	if err != nil {
-		response.FailWithMsg(err.Error())
+		common.FailWithMsg(err.Error())
 		return
 	}
-	response.Success()
+	common.Success()
 }

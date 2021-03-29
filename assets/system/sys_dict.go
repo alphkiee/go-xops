@@ -2,7 +2,7 @@ package system
 
 import "go-xops/assets"
 
-// 数据字典
+// SysDict ...
 type SysDict struct {
 	assets.Model
 	Key      string    `gorm:"uniqueIndex:uk_key;comment:'字典Key';size:64" json:"key"`

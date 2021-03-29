@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"go-xops/internal/service"
+	"go-xops/internal/service/cmd"
 	"go-xops/internal/service/terminal"
 	"go-xops/internal/service/terminal/sftp"
 	"go-xops/pkg/utils"
@@ -82,8 +82,7 @@ func WsSsh(c *gin.Context) {
 	}
 
 	hostId := utils.Str2Uint(c.Query("host_id"))
-	s := service.New()
-	host, err := s.GetHostByid(hostId)
+	host, err := cmd.GetHostByid(hostId)
 	if err != nil {
 		logrus.Error(err.Error())
 		return
