@@ -29,8 +29,11 @@
 - 先把xops.sql给导入导xops数据库中
 - 先克隆git clone https://github.com/jkuup/go-xops.git
 - cd go-xops 在conf目录下修改config-dev.yml文件对内容
+
 ![avatar](https://github.com/jkuup/go-xops/blob/master/img/config-dev-1.png)
+
 ![avatar](https://github.com/jkuup/go-xops/blob/master/img/config-dev-1.png)
+
 注意上面需要修改自己对数据库地址，关于prometheus和k8s可以不用修改项目也可以跑起来
 - 执行命令 go run main.go
 
