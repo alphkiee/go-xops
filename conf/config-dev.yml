@@ -15,11 +15,11 @@ mysql:
   # 用户名
   username: root
   # 密码
-  password: 123456
+  password: Ustc@2020
   # 数据库名
   database: xops
   # 主机地址
-  host: 127.0.0.1
+  host: 192.168.83.89
   # 端口
   port: 3306
   # 连接字符串查询参数
@@ -64,4 +64,4 @@ prometheusapiaddress:
 
 # k8s集群的配置文件
 kubeConf:
-  path: "C:\\Users\\60302\\Code\\go-xops\\conf\\config"
+  path: "/workspaces/go-xops/conf/config"
