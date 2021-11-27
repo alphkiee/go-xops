@@ -3,7 +3,7 @@
         <img src="https://raw.githubusercontent.com/jkuup/go-xops/master/img/gopher.png?v=0.2.2" width="180" />
     </a>
     <h3 align="center">go-xops</h3>
-    <p align="center">Golang 自动化运维平台</p>
+    <p align="center">Golang 自动化运维容器平台</p>
     <p align="center">
         <a href="https://travis-ci.com/jkuup/go-xops"><img src="https://travis-ci.com/jkuup/go-xops.svg?branch=master"></a>
         <a href="https://github.com/jkuup/go-xops/releases"><img src="https://img.shields.io/badge/Version-v1.0.0-red.svg"></a>
@@ -13,7 +13,11 @@
     </p>
 </p>
 <br/>
-功能开发展示和进度(更新慢请包涵)
+
+- 功能开发展示和进度(更新慢请包涵)🧎‍♀️🧎‍♀🧎‍♀🧎‍♀🧎‍♀🧎‍♀
+
+- 有些功能待测试和验证，有问题欢迎提交👏👏👏👏👏👏
+
 
 - 已完成
 - [X] 基于Casbin的用户权限管理
@@ -21,12 +25,13 @@
 - [X] Linux服务器的命令执行，文件下发，web界面终端
 - [X] 主机监控,数据库监控基于prometheus和grafana
 - [X] 基于docker和k8s的镜像构建和打包
+- [X] 基于docker reset api 构建镜像使用websocket
 - 待开发
 - [ ] CI/CD持续构建和集成
 
 安装部署
 
-- 先把xops.sql给导入导xops数据库中
+- 先把xops.sql给导入导xops数据库中(xops.sql有点旧，没有及时更新)
 - 先克隆git clone https://github.com/jkuup/go-xops.git
 - cd go-xops 在conf目录下修改config-dev.yml文件对内容
 
