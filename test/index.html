@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+<h3>WebSocket Go</h3>
+<pre id="output"></pre>
+
+<script>
+    url = 'ws://127.0.0.1:9000/api/v1/docker/build'
+    c = new WebSocket(url,"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Mzc5MDQ0NDIsImlkZW50aXR5IjoxLCJvcmlnX2lhdCI6MTYzNzg5MDA0MiwidXNlciI6IntcImlkXCI6MSxcInVzZXJuYW1lXCI6XCJhZG1pblwiLFwiYXZhdGFyXCI6XCJcIixcIm5hbWVcIjpcImNlc2hpXCIsXCJ0b2tlblwiOlwiXCIsXCJleHBpcmVzXCI6XCJcIn0ifQ.ty_D_G1mRH7t9XmdXeKD5JSBDxGdeovJn8tjCeIN1Ck8KsLoOWaLPvNi1mWFa7tU8qXFZYh6uj6H1GlLI9fjhQ");
+    c.onmessage = function(msg){
+        $("#output").append(msg.data)
+        // console.log(msg)
+    }
+
+</script>
+</body>
+</html>

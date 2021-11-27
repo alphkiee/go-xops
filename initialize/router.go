@@ -2,19 +2,19 @@ package initialize
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
+	swagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
+	_ "go-xops/docs"
 	"go-xops/internal/routers"
 	"go-xops/internal/routers/cmdb"
+	"go-xops/internal/routers/docker"
+	"go-xops/internal/routers/harbor"
 	"go-xops/internal/routers/k8s"
 	"go-xops/internal/routers/prometheus"
 	"go-xops/internal/routers/system"
 	"go-xops/middleware"
 	"go-xops/pkg/common"
-
-	_ "go-xops/docs"
-
-	"github.com/gin-gonic/gin"
-	swagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 // Routers ...
@@ -22,16 +22,17 @@ func Routers() *gin.Engine {
 	gin.SetMode(common.Conf.System.AppMode)
 	// 创建带有默认中间件的路由:
 	// 日志与恢复中间件
-	// r := gin.Default()
+	r := gin.Default()
 	// 创建不带中间件的路由:
-	r := gin.New()
+	// r := gin.New()
 	// 添加中间件logger记录日志
 	r.Use(middleware.LoggerToFile())
+	r.Use(middleware.GinLogger(), middleware.GinRecovery(true))
 	r.GET("/swagger/*any", swagger.WrapHandler(swaggerFiles.Handler))
 	// 添加全局异常处理中间件
 	r.Use(middleware.Exception)
 	// 添加跨域中间件, 让请求支持跨域-生产勿用
-	// r.Use(middleware.Cors())
+	// ·r.Use(middleware.Cors())
 	// 初始化jwt auth中间件
 	authMiddleware, err := middleware.InitAuth()
 	if err != nil {
@@ -54,6 +55,8 @@ func Routers() *gin.Engine {
 		cmdb.InitHostRouter(v1, authMiddleware)             // 注册主机路由
 		prometheus.InitPrometheusRouter(v1, authMiddleware) // 注册prometheus路由
 		k8s.InitPrometheusRouter(v1, authMiddleware)        // 注册k8sapi路由
+		harbor.InitHarborRouter(v1, authMiddleware)         // 注册harbor reset api 路由
+		docker.InitDockerRouter(v1, authMiddleware)         // 注册docker reset api 路由
 	}
 
 	return r

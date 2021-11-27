@@ -48,7 +48,7 @@ func GetMenus(c *gin.Context) {
 // @Summary Get /api/v1/menu/create
 // @Description 创建菜单
 // @Produce json
-// @Param data body request.CreateMenuReq true "name, icon, path, sort, parent_id, creator"
+// @Param data body s.CreateMenuReq true "name, icon, path, sort, parent_id, creator"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -84,7 +84,7 @@ func CreateMenu(c *gin.Context) {
 // @Summary Get /api/v1/menu/update/:menuId
 // @Description 更新菜单
 // @Produce json
-// @Param data body request.UpdateMenuReq true "name, icon, path, sort, status, parent_id"
+// @Param data body s.UpdateMenuReq true "name, icon, path, sort, status, parent_id"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -116,7 +116,7 @@ func UpdateMenuById(c *gin.Context) {
 // @Summary Delete /api/v1/menu/delete
 // @Description 根据ID批量删除菜单
 // @Produce json
-// @Param data body request.IdsReq true "ids"
+// @Param data body common.IdsReq true "ids"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo

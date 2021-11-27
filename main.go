@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"go-xops/initialize"
+
+	"go-xops/middleware"
 	"go-xops/pkg/common"
 	"net/http"
 	"os"
@@ -31,8 +33,17 @@ func main() {
 	r := initialize.Routers()
 	//初始化数据库
 	initialize.Mysql()
-	//初始化Redis
-	// initialize.Redis()
+	// 初始化docker reset api
+	initialize.InitDockerApi()
+	// 初始化harbor reset api
+	initialize.InitHarborClient()
+	// 初始化中间件zap log
+	err := middleware.InitLogger()
+	// 初始化k8s reset cliet
+	initialize.InitKubeConf()
+	if err != nil {
+		panic(err)
+	}
 	// 初始校验器
 	initialize.Validate()
 	// 初始化Casbin
@@ -47,7 +58,6 @@ func main() {
 		Addr:    fmt.Sprintf("%s:%d", host, port),
 		Handler: r,
 	}
-
 	go func() {
 		if err := http.ListenAndServe(":8005", nil); err != nil {
 		}

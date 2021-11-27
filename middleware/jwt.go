@@ -20,6 +20,7 @@ type RegisterAndLoginReq struct {
 }
 
 func InitAuth() (*jwt.GinJWTMiddleware, error) {
+	// 创建中间件结构体jwt.GinJWTMiddleware
 	return jwt.New(&jwt.GinJWTMiddleware{
 		Realm:            common.Conf.Jwt.Realm,
 		SigningAlgorithm: "HS512",
@@ -37,6 +38,9 @@ func InitAuth() (*jwt.GinJWTMiddleware, error) {
 			}
 			return jwt.MapClaims{}
 		},
+		/*
+			定义登录成功后用户名存储以及传递用户名到Autharizator
+		*/
 		IdentityHandler: func(c *gin.Context) interface{} {
 			claims := jwt.ExtractClaims(c)
 			return map[string]interface{}{
@@ -44,9 +48,13 @@ func InitAuth() (*jwt.GinJWTMiddleware, error) {
 				"user":        claims["user"],
 			}
 		},
+		// 定义登录验证函数并添加到 ginJWTMiddleware 中的 Authenticator 字段
 		Authenticator: func(c *gin.Context) (interface{}, error) {
 			var req RegisterAndLoginReq
-			_ = c.ShouldBindJSON(&req)
+			err := c.ShouldBindJSON(&req)
+			if err != nil {
+				return nil, err
+			}
 			user, err := system.LoginCheck(req.Username, req.Password)
 			if err != nil {
 				return nil, err
@@ -66,6 +74,7 @@ func InitAuth() (*jwt.GinJWTMiddleware, error) {
 			}
 			return false
 		},
+		// 定义验证失败返回的结构体
 		Unauthorized: func(c *gin.Context, code int, message string) {
 			if message == common.LoginCheckErrorMsg {
 				common.FailWithMsg(common.LoginCheckErrorMsg)

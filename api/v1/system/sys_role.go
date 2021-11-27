@@ -51,7 +51,7 @@ func GetRoles(c *gin.Context) {
 // @Summary Post /api/v1/role/create
 // @Description 创建角色
 // @Produce json
-// @Param data body request.CreateRoleReq true "name, keyword, desc, creator"
+// @Param data body s.CreateRoleReq true "name, keyword, desc, creator"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -119,7 +119,7 @@ func UpdateRoleById(c *gin.Context) {
 // @Description 根据角色 ID来更新角色权限信息
 // @Produce json
 // @Param roleId path int true "roleId"
-// @Param data body request.UpdateRolePermsReq true "menus_id, apis_id"
+// @Param data body s.UpdateRolePermsReq true "menus_id, apis_id"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -160,7 +160,7 @@ func UpdateRolePermsById(c *gin.Context) {
 // @Summary Delete /api/v1/role/delete
 // @Description 根据ID批量删除角色
 // @Produce json
-// @Param data body request.IdsReq true "ids"
+// @Param data body common.IdsReq true "ids"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo

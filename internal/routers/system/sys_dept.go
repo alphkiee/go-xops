@@ -14,7 +14,7 @@ func InitDeptRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R
 	{
 		router.GET("/list", system.GetDepts)
 		router.POST("/create", system.CreateDept)
-		router.PATCH("/update/:deptId", system.UpdateDeptById)
+		router.PATCH("/update/:depztId", system.UpdateDeptById)
 		router.DELETE("/delete", system.BatchDeleteDeptByIds)
 	}
 	return router

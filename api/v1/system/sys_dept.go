@@ -13,7 +13,7 @@ import (
 // @Summary Get /api/v1/dept/list
 // @Description 查询所有部门
 // @Produce json
-// @Param data body request.DeptListReq true "name, creator, status"
+// @Param data body s.DeptListReq true "name, creator, status"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -42,7 +42,7 @@ func GetDepts(c *gin.Context) {
 // @Summary Get /api/v1/dept/create
 // @Description 创建部门
 // @Produce json
-// @Param data body request.CreateDeptReq true "name, sort, parent_id, creator"
+// @Param data body s.CreateDeptReq true "name, sort, parent_id, creator"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -78,7 +78,7 @@ func CreateDept(c *gin.Context) {
 // @Summary Get /api/v1/dept/update/:deptId
 // @Description 更新部门
 // @Produce json
-// @Param data body request.UpdateDeptReq true "name, status, sort, parent_id"
+// @Param data body s.UpdateDeptReq true "name, status, sort, parent_id"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -108,7 +108,7 @@ func UpdateDeptById(c *gin.Context) {
 // @Summary Delete /api/v1/dept/delete
 // @Description 根据ID批量删除部门
 // @Produce json
-// @Param data body request.IdsReq true "ids"
+// @Param data body common.IdsReq true "ids"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo

@@ -10,6 +10,9 @@ type Configuration struct {
 	Casbin               CasbinConfiguration `mapstructure:"casbin" json:"casbin"`
 	PrometheusApiAddress PrometheusAddress   `mapstructure:"prometheusapiaddress" json:"prometheusapiaddress"`
 	KubeConf             KubeConfiguration   `mapstructure:"kubeConf" json:"kubeConf"`
+	DockerApi            DockerApiUrl        `mapstructure:"dockerapi" json:"docker_api"`
+	HarborApi            HarborApiUrl        `mapstructure:"harborapi" json:"harbor_api"`
+	ZapLogPath           ZapLog              `mapstructure:"zapLog" json:"zap_log"`
 }
 
 type SystemConfiguration struct {
@@ -56,4 +59,25 @@ type PrometheusAddress struct {
 
 type KubeConfiguration struct {
 	Path string `mapstructure:"path" json:"path"`
+}
+
+// Docker api url 地址
+type DockerApiUrl struct {
+	Url string `mapstructure:"url" json:"url"`
+}
+
+// Harbor api url 地址
+type HarborApiUrl struct {
+	Url      string `mapstructure:"url" json:"url"`
+	User     string `mapstructure:"user" json:"user"`
+	Password string `mapstructure:"password" json:"password"`
+}
+
+// zap log
+type ZapLog struct {
+	Level      string `json:"level"`
+	Filename   string `json:"filename"`
+	MaxSize    int    `json:"max_size"`
+	MaxAge     int    `json:"max_age"`
+	MaxBackups int    `json:"max_backups"`
 }

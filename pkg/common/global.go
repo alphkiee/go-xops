@@ -2,6 +2,8 @@ package common
 
 import (
 	"errors"
+	"github.com/docker/docker/client"
+	"github.com/mittwald/goharbor-client/v4/apiv1"
 	"strings"
 
 	"github.com/casbin/casbin/v2"
@@ -25,8 +27,10 @@ var (
 	// validation.v10相关翻译器
 	Translator ut.Translator
 	// Casbin 管理器
-	Casbin    *casbin.SyncedEnforcer
-	ClientSet *kubernetes.Clientset
+	Casbin       *casbin.SyncedEnforcer
+	ClientSet    *kubernetes.Clientset
+	DockerClient *client.Client
+	HarborClient *apiv1.RESTClient
 )
 
 // 全局常量

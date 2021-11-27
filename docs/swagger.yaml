@@ -1,5 +1,27 @@
 definitions:
-  request.ApiListReq:
+  common.IdsReq:
+    properties:
+      ids:
+        description: 传多个id
+        items:
+          type: integer
+        type: array
+    type: object
+  common.RespInfo:
+    properties:
+      code:
+        description: 错误代码代码
+        type: integer
+      data:
+        description: 数据内容
+      message:
+        description: 消息提示
+        type: string
+      status:
+        description: 状态
+        type: boolean
+    type: object
+  system.ApiListReq:
     properties:
       all:
         description: 不使用分页
@@ -26,7 +48,7 @@ definitions:
       tree:
         type: boolean
     type: object
-  request.ChangePwdReq:
+  system.ChangePwdReq:
     properties:
       new_password:
         type: string
@@ -36,7 +58,7 @@ definitions:
     - new_password
     - old_password
     type: object
-  request.CreateApiReq:
+  system.CreateApiReq:
     properties:
       category:
         type: string
@@ -56,7 +78,7 @@ definitions:
     - name
     - path
     type: object
-  request.CreateDeptReq:
+  system.CreateDeptReq:
     properties:
       creator:
         type: string
@@ -69,7 +91,7 @@ definitions:
     required:
     - name
     type: object
-  request.CreateDictReq:
+  system.CreateDictReq:
     properties:
       creator:
         type: string
@@ -85,7 +107,7 @@ definitions:
     - key
     - value
     type: object
-  request.CreateMenuReq:
+  system.CreateMenuReq:
     properties:
       creator:
         type: string
@@ -102,7 +124,7 @@ definitions:
     required:
     - name
     type: object
-  request.CreateRoleReq:
+  system.CreateRoleReq:
     properties:
       creator:
         type: string
@@ -116,7 +138,7 @@ definitions:
     - keyword
     - name
     type: object
-  request.CreateUserReq:
+  system.CreateUserReq:
     properties:
       avatar:
         type: string
@@ -142,7 +164,7 @@ definitions:
     - role_id
     - username
     type: object
-  request.DeptListReq:
+  system.DeptListReq:
     properties:
       creator:
         type: string
@@ -151,7 +173,7 @@ definitions:
       status:
         type: boolean
     type: object
-  request.DictListReq:
+  system.DictListReq:
     properties:
       creator:
         type: string
@@ -166,15 +188,7 @@ definitions:
       value:
         type: string
     type: object
-  request.IdsReq:
-    properties:
-      ids:
-        description: 传多个id
-        items:
-          type: integer
-        type: array
-    type: object
-  request.UpdateDeptReq:
+  system.UpdateDeptReq:
     properties:
       name:
         type: string
@@ -187,7 +201,7 @@ definitions:
     required:
     - name
     type: object
-  request.UpdateDictReq:
+  system.UpdateDictReq:
     properties:
       desc:
         type: string
@@ -203,7 +217,7 @@ definitions:
     - key
     - value
     type: object
-  request.UpdateMenuReq:
+  system.UpdateMenuReq:
     properties:
       icon:
         type: string
@@ -220,7 +234,7 @@ definitions:
     required:
     - name
     type: object
-  request.UpdateRolePermsReq:
+  system.UpdateRolePermsReq:
     properties:
       apis_id:
         description: 传多个id
@@ -233,7 +247,7 @@ definitions:
           type: integer
         type: array
     type: object
-  request.UpdateUserBaseInfoReq:
+  system.UpdateUserBaseInfoReq:
     properties:
       email:
         type: string
@@ -244,7 +258,7 @@ definitions:
     required:
     - name
     type: object
-  request.UpdateUserReq:
+  system.UpdateUserReq:
     properties:
       dept_id:
         type: integer
@@ -262,21 +276,6 @@ definitions:
         type: boolean
     required:
     - name
-    type: object
-  response.RespInfo:
-    properties:
-      code:
-        description: 错误代码代码
-        type: integer
-      data:
-        description: 数据内容
-        type: object
-      message:
-        description: 消息提示
-        type: string
-      status:
-        description: 状态
-        type: boolean
     type: object
 host: 127.0.0.1:9000
 info:
@@ -300,7 +299,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       summary: Get Ping
   /api/v1/api/create:
     post:
@@ -311,18 +310,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.CreateApiReq'
+          $ref: '#/definitions/system.CreateApiReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/api/create
@@ -335,18 +334,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.IdsReq'
+          $ref: '#/definitions/common.IdsReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Delete /api/v1/api/delete
@@ -359,18 +358,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.ApiListReq'
+          $ref: '#/definitions/system.ApiListReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/api/list
@@ -389,11 +388,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/api/update/:apiId
@@ -406,18 +405,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.CreateDeptReq'
+          $ref: '#/definitions/system.CreateDeptReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/dept/create
@@ -430,18 +429,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.IdsReq'
+          $ref: '#/definitions/common.IdsReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Delete /api/v1/dept/delete
@@ -454,18 +453,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.DeptListReq'
+          $ref: '#/definitions/system.DeptListReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/dept/list
@@ -478,18 +477,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UpdateDeptReq'
+          $ref: '#/definitions/system.UpdateDeptReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/dept/update/:deptId
@@ -502,18 +501,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.CreateDictReq'
+          $ref: '#/definitions/system.CreateDictReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/dict/create
@@ -526,18 +525,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.IdsReq'
+          $ref: '#/definitions/common.IdsReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Delete /api/v1/dict/delete
@@ -550,14 +549,14 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.DictListReq'
+          $ref: '#/definitions/system.DictListReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/dict/list
@@ -570,21 +569,200 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UpdateDictReq'
+          $ref: '#/definitions/system.UpdateDictReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/dict/update/:dictId
+  /api/v1/docker/build:
+    get:
+      description: 构建镜像
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/docker/build
+  /api/v1/docker/build/socket:
+    get:
+      description: 构建镜像
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/docker/build/socket
+  /api/v1/docker/push/image:
+    post:
+      description: 构建镜像
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Post /api/v1/docker/push/image
+  /api/v1/harbor/project/create:
+    post:
+      description: 创建project
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: storage_limit
+        in: query
+        name: storage_limit
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Post /api/v1/harbor/project/create
+  /api/v1/harbor/project/delete:
+    delete:
+      description: 删除project
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete /api/v1/harbor/project/delete
+  /api/v1/harbor/project/update:
+    put:
+      description: 更新project
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Put /api/v1/harbor/project/update
+  /api/v1/harbor/projects/list:
+    get:
+      description: 获取所有projects
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/harbor/projects/list
+  /api/v1/harbor/registry/:name:
+    get:
+      description: 获取所有Registry
+      parameters:
+      - description: name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/harbor/registry/:name
+  /api/v1/harbor/repository/:name:
+    get:
+      description: 获取指定project目录下的镜像
+      parameters:
+      - description: name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.RespInfo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get /api/v1/harbor/repository/:name
   /api/v1/k8s/application:
     post:
       description: 获取指定的application
@@ -611,11 +789,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Post /api/v1/k8s/application
@@ -628,11 +806,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/k8s/application/list
@@ -678,11 +856,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Post /api/v1/k8s/deployment/create
@@ -716,11 +894,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Patch /api/v1/k8s/deployment/update
@@ -733,11 +911,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/k8s/namespace/list
@@ -755,11 +933,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/k8s/namespace/name/:ns
@@ -772,18 +950,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.CreateMenuReq'
+          $ref: '#/definitions/system.CreateMenuReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/menu/create
@@ -796,18 +974,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.IdsReq'
+          $ref: '#/definitions/common.IdsReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Delete /api/v1/menu/delete
@@ -820,7 +998,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/menu/list
@@ -833,11 +1011,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/menu/tree
@@ -850,18 +1028,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UpdateMenuReq'
+          $ref: '#/definitions/system.UpdateMenuReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/menu/update/:menuId
@@ -874,18 +1052,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.IdsReq'
+          $ref: '#/definitions/common.IdsReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Delete /api/v1/operlog/delete
@@ -919,11 +1097,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/operlog/list
@@ -947,11 +1125,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
   /api/v1/role/create:
@@ -963,18 +1141,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.CreateRoleReq'
+          $ref: '#/definitions/system.CreateRoleReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Post /api/v1/role/create
@@ -987,18 +1165,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.IdsReq'
+          $ref: '#/definitions/common.IdsReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Delete /api/v1/role/delete
@@ -1028,11 +1206,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/role/list
@@ -1051,11 +1229,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/role/perms/:roleId
@@ -1073,18 +1251,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UpdateRolePermsReq'
+          $ref: '#/definitions/system.UpdateRolePermsReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Patch /api/v1/role/perms/update/:roleId
@@ -1103,11 +1281,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Patch /api/v1/role//update/:roleId
@@ -1120,18 +1298,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.ChangePwdReq'
+          $ref: '#/definitions/system.ChangePwdReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Put /api/v1/user/changePwd
@@ -1144,18 +1322,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.CreateUserReq'
+          $ref: '#/definitions/system.CreateUserReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Post /api/v1/user/create
@@ -1168,18 +1346,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.IdsReq'
+          $ref: '#/definitions/common.IdsReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Delete /api/v1/user/delete
@@ -1192,7 +1370,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/user/info
@@ -1210,18 +1388,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UpdateUserBaseInfoReq'
+          $ref: '#/definitions/system.UpdateUserBaseInfoReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Patch /api/v1/user/info/update/:userId
@@ -1240,11 +1418,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Post /api/v1/user/info/uploadImg
@@ -1282,11 +1460,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Get /api/v1/user/list
@@ -1304,18 +1482,18 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UpdateUserReq'
+          $ref: '#/definitions/system.UpdateUserReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.RespInfo'
+            $ref: '#/definitions/common.RespInfo'
       security:
       - ApiKeyAuth: []
       summary: Patch /api/v1/user/update/:userId

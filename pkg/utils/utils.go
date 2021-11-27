@@ -5,6 +5,7 @@ import (
 	"crypto/md5"
 	"crypto/rand"
 	"fmt"
+	"go-xops/assets/harbor"
 	"io/ioutil"
 	"math/big"
 	"os"
@@ -119,3 +120,12 @@ func FormatFileSize(fileSize int64) (size string) {
 }
 
 func Int32Ptr(i int32) *int32 { return &i }
+
+func ContainsStr(arr []harbor.Project, item string) bool {
+	for _, v := range arr {
+		if v.Name == item {
+			return true
+		}
+	}
+	return false
+}

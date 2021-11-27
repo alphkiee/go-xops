@@ -13,7 +13,7 @@ import (
 
 // LoggerToFile ...
 func LoggerToFile() gin.HandlerFunc {
-	logFilePath := "."
+	logFilePath := "/Users/痞老板/Work/Golang/go-xops/log/"
 	logFileName := "go-xops.log"
 
 	fileName := path.Join(logFilePath, logFileName)

@@ -27,7 +27,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -52,7 +52,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.CreateApiReq"
+                            "$ref": "#/definitions/system.CreateApiReq"
                         }
                     }
                 ],
@@ -60,13 +60,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -91,7 +91,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.IdsReq"
+                            "$ref": "#/definitions/common.IdsReq"
                         }
                     }
                 ],
@@ -99,13 +99,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -130,7 +130,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.ApiListReq"
+                            "$ref": "#/definitions/system.ApiListReq"
                         }
                     }
                 ],
@@ -138,13 +138,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -175,13 +175,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -206,7 +206,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.CreateDeptReq"
+                            "$ref": "#/definitions/system.CreateDeptReq"
                         }
                     }
                 ],
@@ -214,13 +214,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -245,7 +245,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.IdsReq"
+                            "$ref": "#/definitions/common.IdsReq"
                         }
                     }
                 ],
@@ -253,13 +253,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -284,7 +284,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.DeptListReq"
+                            "$ref": "#/definitions/system.DeptListReq"
                         }
                     }
                 ],
@@ -292,13 +292,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -323,7 +323,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.UpdateDeptReq"
+                            "$ref": "#/definitions/system.UpdateDeptReq"
                         }
                     }
                 ],
@@ -331,13 +331,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -362,7 +362,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.CreateDictReq"
+                            "$ref": "#/definitions/system.CreateDictReq"
                         }
                     }
                 ],
@@ -370,13 +370,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -401,7 +401,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.IdsReq"
+                            "$ref": "#/definitions/common.IdsReq"
                         }
                     }
                 ],
@@ -409,13 +409,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -440,7 +440,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.DictListReq"
+                            "$ref": "#/definitions/system.DictListReq"
                         }
                     }
                 ],
@@ -448,7 +448,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -473,7 +473,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.UpdateDictReq"
+                            "$ref": "#/definitions/system.UpdateDictReq"
                         }
                     }
                 ],
@@ -481,13 +481,305 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/docker/build": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "构建镜像",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/docker/build",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/docker/build/socket": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "构建镜像",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/docker/build/socket",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/docker/push/image": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "构建镜像",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Post /api/v1/docker/push/image",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/harbor/project/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建project",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Post /api/v1/harbor/project/create",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "storage_limit",
+                        "name": "storage_limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/harbor/project/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "删除project",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete /api/v1/harbor/project/delete",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/harbor/project/update": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新project",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Put /api/v1/harbor/project/update",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/harbor/projects/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取所有projects",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/harbor/projects/list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/harbor/registry/:name": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取所有Registry",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/harbor/registry/:name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/harbor/repository/:name": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取指定project目录下的镜像",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get /api/v1/harbor/repository/:name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -535,13 +827,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -563,13 +855,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -641,13 +933,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -701,13 +993,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -729,13 +1021,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -765,13 +1057,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -796,7 +1088,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.CreateMenuReq"
+                            "$ref": "#/definitions/system.CreateMenuReq"
                         }
                     }
                 ],
@@ -804,13 +1096,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -835,7 +1127,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.IdsReq"
+                            "$ref": "#/definitions/common.IdsReq"
                         }
                     }
                 ],
@@ -843,13 +1135,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -871,7 +1163,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -893,13 +1185,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -924,7 +1216,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.UpdateMenuReq"
+                            "$ref": "#/definitions/system.UpdateMenuReq"
                         }
                     }
                 ],
@@ -932,13 +1224,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -963,7 +1255,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.IdsReq"
+                            "$ref": "#/definitions/common.IdsReq"
                         }
                     }
                 ],
@@ -971,13 +1263,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1031,13 +1323,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1074,13 +1366,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1105,7 +1397,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.CreateRoleReq"
+                            "$ref": "#/definitions/system.CreateRoleReq"
                         }
                     }
                 ],
@@ -1113,13 +1405,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1144,7 +1436,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.IdsReq"
+                            "$ref": "#/definitions/common.IdsReq"
                         }
                     }
                 ],
@@ -1152,13 +1444,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1206,13 +1498,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1243,13 +1535,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1281,7 +1573,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.UpdateRolePermsReq"
+                            "$ref": "#/definitions/system.UpdateRolePermsReq"
                         }
                     }
                 ],
@@ -1289,13 +1581,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1326,13 +1618,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1357,7 +1649,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.ChangePwdReq"
+                            "$ref": "#/definitions/system.ChangePwdReq"
                         }
                     }
                 ],
@@ -1365,13 +1657,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1396,7 +1688,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.CreateUserReq"
+                            "$ref": "#/definitions/system.CreateUserReq"
                         }
                     }
                 ],
@@ -1404,13 +1696,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1435,7 +1727,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.IdsReq"
+                            "$ref": "#/definitions/common.IdsReq"
                         }
                     }
                 ],
@@ -1443,13 +1735,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1471,7 +1763,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1503,7 +1795,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.UpdateUserBaseInfoReq"
+                            "$ref": "#/definitions/system.UpdateUserBaseInfoReq"
                         }
                     }
                 ],
@@ -1511,13 +1803,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1548,13 +1840,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1614,13 +1906,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1652,7 +1944,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.UpdateUserReq"
+                            "$ref": "#/definitions/system.UpdateUserReq"
                         }
                     }
                 ],
@@ -1660,13 +1952,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.RespInfo"
+                            "$ref": "#/definitions/common.RespInfo"
                         }
                     }
                 }
@@ -1674,7 +1966,39 @@
         }
     },
     "definitions": {
-        "request.ApiListReq": {
+        "common.IdsReq": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "description": "传多个id",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "common.RespInfo": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "错误代码代码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "数据内容"
+                },
+                "message": {
+                    "description": "消息提示",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "状态",
+                    "type": "boolean"
+                }
+            }
+        },
+        "system.ApiListReq": {
             "type": "object",
             "properties": {
                 "all": {
@@ -1713,7 +2037,7 @@
                 }
             }
         },
-        "request.ChangePwdReq": {
+        "system.ChangePwdReq": {
             "type": "object",
             "required": [
                 "new_password",
@@ -1728,7 +2052,7 @@
                 }
             }
         },
-        "request.CreateApiReq": {
+        "system.CreateApiReq": {
             "type": "object",
             "required": [
                 "category",
@@ -1757,7 +2081,7 @@
                 }
             }
         },
-        "request.CreateDeptReq": {
+        "system.CreateDeptReq": {
             "type": "object",
             "required": [
                 "name"
@@ -1777,7 +2101,7 @@
                 }
             }
         },
-        "request.CreateDictReq": {
+        "system.CreateDictReq": {
             "type": "object",
             "required": [
                 "key",
@@ -1801,7 +2125,7 @@
                 }
             }
         },
-        "request.CreateMenuReq": {
+        "system.CreateMenuReq": {
             "type": "object",
             "required": [
                 "name"
@@ -1827,7 +2151,7 @@
                 }
             }
         },
-        "request.CreateRoleReq": {
+        "system.CreateRoleReq": {
             "type": "object",
             "required": [
                 "keyword",
@@ -1848,7 +2172,7 @@
                 }
             }
         },
-        "request.CreateUserReq": {
+        "system.CreateUserReq": {
             "type": "object",
             "required": [
                 "name",
@@ -1886,7 +2210,7 @@
                 }
             }
         },
-        "request.DeptListReq": {
+        "system.DeptListReq": {
             "type": "object",
             "properties": {
                 "creator": {
@@ -1900,7 +2224,7 @@
                 }
             }
         },
-        "request.DictListReq": {
+        "system.DictListReq": {
             "type": "object",
             "properties": {
                 "creator": {
@@ -1923,19 +2247,7 @@
                 }
             }
         },
-        "request.IdsReq": {
-            "type": "object",
-            "properties": {
-                "ids": {
-                    "description": "传多个id",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                }
-            }
-        },
-        "request.UpdateDeptReq": {
+        "system.UpdateDeptReq": {
             "type": "object",
             "required": [
                 "name"
@@ -1955,7 +2267,7 @@
                 }
             }
         },
-        "request.UpdateDictReq": {
+        "system.UpdateDictReq": {
             "type": "object",
             "required": [
                 "key",
@@ -1979,7 +2291,7 @@
                 }
             }
         },
-        "request.UpdateMenuReq": {
+        "system.UpdateMenuReq": {
             "type": "object",
             "required": [
                 "name"
@@ -2005,7 +2317,7 @@
                 }
             }
         },
-        "request.UpdateRolePermsReq": {
+        "system.UpdateRolePermsReq": {
             "type": "object",
             "properties": {
                 "apis_id": {
@@ -2024,7 +2336,7 @@
                 }
             }
         },
-        "request.UpdateUserBaseInfoReq": {
+        "system.UpdateUserBaseInfoReq": {
             "type": "object",
             "required": [
                 "name"
@@ -2041,7 +2353,7 @@
                 }
             }
         },
-        "request.UpdateUserReq": {
+        "system.UpdateUserReq": {
             "type": "object",
             "required": [
                 "name"
@@ -2066,27 +2378,6 @@
                     "type": "integer"
                 },
                 "status": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "response.RespInfo": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "错误代码代码",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "数据内容",
-                    "type": "object"
-                },
-                "message": {
-                    "description": "消息提示",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "状态",
                     "type": "boolean"
                 }
             }

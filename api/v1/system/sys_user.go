@@ -55,7 +55,7 @@ func GetUserInfo(c *gin.Context) {
 // @Summary Post /api/v1/user/create
 // @Description 创建用户
 // @Produce json
-// @Param data body request.CreateUserReq true "username, password, name, role_id"
+// @Param data body s.CreateUserReq true "username, password, name, role_id"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -131,7 +131,7 @@ func GetUsers(c *gin.Context) {
 // @Description 根据user ID来更新用户基本信息
 // @Produce json
 // @Param userId path int true "userId"
-// @Param data body request.UpdateUserBaseInfoReq true "mobile, name, email"
+// @Param data body s.UpdateUserBaseInfoReq true "mobile, name, email"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -171,7 +171,7 @@ func UpdateUserBaseInfoById(c *gin.Context) {
 // @Description 更新用户根据 user ID
 // @Produce json
 // @Param userId path int true "userId"
-// @Param data body request.UpdateUserReq true "mobile, name, email, password"
+// @Param data body s.UpdateUserReq true "mobile, name, email, password"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -208,7 +208,7 @@ func UpdateUserById(c *gin.Context) {
 // @Summary Put /api/v1/user/changePwd
 // @Description 更改用户的密码
 // @Produce json
-// @Param data body request.ChangePwdReq true "old_password, new_password"
+// @Param data body s.ChangePwdReq true "old_password, new_password"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -251,7 +251,7 @@ func ChangePwd(c *gin.Context) {
 // @Summary Delete /api/v1/user/delete
 // @Description 根据ID批量删除用户
 // @Produce json
-// @Param data body request.IdsReq true "ids"
+// @Param data body common.IdsReq true "ids"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo

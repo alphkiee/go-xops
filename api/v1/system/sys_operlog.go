@@ -70,7 +70,7 @@ func GetOperLogs(c *gin.Context) {
 // @Summary Delete /api/v1/operlog/delete
 // @Description 根据ID批量删除日志
 // @Produce json
-// @Param data body request.IdsReq true "ids"
+// @Param data body common.IdsReq true "ids"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo

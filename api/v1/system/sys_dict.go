@@ -13,7 +13,7 @@ import (
 // @Summary Get /api/v1/dict/list
 // @Description 查询所有字典
 // @Produce json
-// @Param data body request.DictListReq true "key, value, desc, creator, status, type_key"
+// @Param data body s.DictListReq true "key, value, desc, creator, status, type_key"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Router /api/v1/dict/list [get]
@@ -41,7 +41,7 @@ func GetDicts(c *gin.Context) {
 // @Summary Get /api/v1/dict/create
 // @Description 创建菜单
 // @Produce json
-// @Param data body request.CreateDictReq true "key, value, desc, parent_id, creator"
+// @Param data body s.CreateDictReq true "key, value, desc, parent_id, creator"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -77,7 +77,7 @@ func CreateDict(c *gin.Context) {
 // @Summary Get /api/v1/dict/update/:dictId
 // @Description 更新字典
 // @Produce json
-// @Param data body request.UpdateDictReq true "key, value, desc, parent_id, status"
+// @Param data body s.UpdateDictReq true "key, value, desc, parent_id, status"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo
@@ -107,7 +107,7 @@ func UpdateDictById(c *gin.Context) {
 // @Summary Delete /api/v1/dict/delete
 // @Description 根据ID批量删除菜单
 // @Produce json
-// @Param data body request.IdsReq true "ids"
+// @Param data body common.IdsReq true "ids"
 // @Security ApiKeyAuth
 // @Success 200 {object} common.RespInfo
 // @Failure 400 {object} common.RespInfo

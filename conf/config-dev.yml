@@ -15,11 +15,11 @@ mysql:
   # 用户名
   username: root
   # 密码
-  password: Ustc@2020
+  password: root
   # 数据库名
   database: xops
   # 主机地址
-  host: 192.168.83.89
+  host: 192.168.212.176
   # 端口
   port: 3306
   # 连接字符串查询参数
@@ -64,4 +64,21 @@ prometheusapiaddress:
 
 # k8s集群的配置文件
 kubeConf:
-  path: "/workspaces/go-xops/conf/config"
+  path: "/Users/痞老板/Work/Golang/go-xops/conf/config"
+
+# docker reset api 接口地址
+dockerApi:
+  url: "tcp://192.168.212.176:2375"
+# harbor reset api 接口地址
+harborApi:
+  url: "http://192.168.212.176/api/"
+  user: "admin"
+  password: "Harbor12345"
+
+# zap log 参数
+ZapLog:
+  level: "debug"
+  filename: "app.log"
+  max_size: 5
+  max_age: 5
+  max_backups: 7
