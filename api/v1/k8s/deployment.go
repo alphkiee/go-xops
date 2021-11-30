@@ -3,11 +3,10 @@ package k8s
 import (
 	"context"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	k8s "go-xops/internal/service/k8s"
 	"go-xops/pkg/common"
 	"go-xops/pkg/utils"
-
-	"github.com/gin-gonic/gin"
 	appsv1 "k8s.io/api/apps/v1"
 	apiv1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -113,4 +112,28 @@ func UpdateDeployment(c *gin.Context) {
 		panic(fmt.Errorf("Update failed: %v", retryErr))
 	}
 	common.SuccessWithMsg("滚动更新成功")
+}
+
+// DeleteDeployment doc
+// @Summary Delete /api/v1/k8s/deployment/delete
+// @Description 删除deployment
+// @Produce json
+// @Param namespace query string false "namespace"
+// @Param name query string false "name"
+// @Security ApiKeyAuth
+// @Success 200 {object} common.RespInfo
+// @Failure 400 {object} common.RespInfo
+// @Router /api/v1/k8s/deployment/delete [delete]
+func DeleteDeployment(c *gin.Context) {
+	var req k8s.DeleteDeployment
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		common.FailWithMsg(err.Error())
+	}
+	// 删除deployment
+	err = common.ClientSet.AppsV1().Deployments(req.Namespaces).Delete(context.TODO(), req.Name, v1.DeleteOptions{})
+	if err != nil {
+		common.FailWithMsg(err.Error())
+	}
+	common.Success()
 }

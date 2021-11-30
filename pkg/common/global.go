@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/docker/docker/client"
 	"github.com/mittwald/goharbor-client/v4/apiv1"
+	"k8s.io/client-go/rest"
 	"strings"
 
 	"github.com/casbin/casbin/v2"
@@ -31,6 +32,7 @@ var (
 	ClientSet    *kubernetes.Clientset
 	DockerClient *client.Client
 	HarborClient *apiv1.RESTClient
+	Config       *rest.Config
 )
 
 // 全局常量

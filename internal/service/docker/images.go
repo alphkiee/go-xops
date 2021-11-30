@@ -55,13 +55,13 @@ func imageBuild() error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*120)
 	defer cancel()
 
-	tar, err := archive.TarWithOptions("/Users/痞老板/Work/Golang/go-xops/build/py", &archive.TarOptions{})
+	tar, err := archive.TarWithOptions("/Users/痞老板/Work/Golang/go-xops/build/rocketmq", &archive.TarOptions{})
 	if err != nil {
 		return err
 	}
 	opts := types.ImageBuildOptions{
 		Dockerfile: "Dockerfile",
-		Tags:       []string{dockerRegistryUserID + "py_xops"},
+		Tags:       []string{dockerRegistryUserID + "rocketmq_test"},
 		Remove:     true,
 	}
 	res, err := common.DockerClient.ImageBuild(ctx, tar, opts)

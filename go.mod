@@ -18,7 +18,7 @@ require (
 	github.com/go-playground/universal-translator v0.17.0
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/gobuffalo/packr/v2 v2.8.1
-	github.com/gorilla/mux v1.7.4 // indirect
+	github.com/gorilla/mux v1.7.4
 	github.com/gorilla/websocket v1.4.2
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
@@ -26,11 +26,12 @@ require (
 	github.com/lestrrat-go/strftime v1.0.3 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/maoqide/kubeutil v0.0.0-20210512025225-e634961ef7df
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mittwald/goharbor-client/v4 v4.0.0
 	github.com/moby/sys/mount v0.3.0 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
-	github.com/natefinch/lumberjack v2.0.0+incompatible // indirect
+	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/opencontainers/image-spec v1.0.2 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/pkg/sftp v1.12.0
@@ -47,10 +48,10 @@ require (
 	github.com/tealeg/xlsx v1.0.5
 	github.com/tebeka/strftime v0.1.5 // indirect
 	github.com/ugorji/go v1.2.3 // indirect
-	go.uber.org/zap v1.19.1 // indirect
+	go.uber.org/zap v1.19.1
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
-	golang.org/x/net v0.0.0-20210410081132-afb366fc7cd1 // indirect
 	golang.org/x/oauth2 v0.0.0-20201109201403-9fd604954f58 // indirect
+	golang.org/x/sys v0.0.0-20211025201205-69cdffdb9359
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gorm.io/driver/mysql v1.0.3

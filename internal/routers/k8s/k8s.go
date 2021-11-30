@@ -18,6 +18,8 @@ func InitPrometheusRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddlewa
 		router.GET("/application/list", k8s.GetApplications)
 		router.POST("/deployment/create", k8s.CreateDeplooyment)
 		router.PATCH("/deployment/update", k8s.UpdateDeployment)
+		router.DELETE("/deployment/delete", k8s.DeleteDeployment)
+		router.POST("/pod/exec", k8s.ExecPod)
 	}
 	return router
 }

@@ -47,11 +47,13 @@ func BuildImage(c *gin.Context) {
 	//	return
 	//}
 	//defer ws.Close()
+
 	err := docker.BuildImage()
 	if err != nil {
 		common.FailWithMsg(err.Error())
 		return
 	}
+
 	//err = ws.WriteMessage(websocket.TextMessage, b)
 	//if err != nil {
 	//	return
@@ -135,57 +137,59 @@ func PushImage(c *gin.Context) {
 // @Failure 400 {object} common.RespInfo
 // @Router /api/v1/docker/build/socket [get]
 func BuildImageSocketPush(c *gin.Context) {
-	var dockerRegistryUserID = ""
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*120)
-	defer cancel()
-	tar, err := archive.TarWithOptions("/Users/痞老板/Work/Golang/go-xops/build/rocketmq", &archive.TarOptions{})
-	if err != nil {
-		panic(err)
-	}
+	go func() {
+		var dockerRegistryUserID = ""
+		ctx, _ := context.WithTimeout(context.Background(), time.Second*120)
+		//defer cancel()
+		tar, err := archive.TarWithOptions("/Users/痞老板/Work/Golang/go-xops/build/rocketmq", &archive.TarOptions{})
+		if err != nil {
+			panic(err)
+		}
 
-	opts := types.ImageBuildOptions{
-		Dockerfile: "Dockerfile",
-		Tags:       []string{dockerRegistryUserID + "tcloud.hub/library/rocketmq"},
-		Remove:     true,
-	}
-	// 调用镜像构建接口
-	res, err := common.DockerClient.ImageBuild(ctx, tar, opts)
-	if err != nil {
-		panic(err)
-	}
+		opts := types.ImageBuildOptions{
+			Dockerfile: "Dockerfile",
+			Tags:       []string{dockerRegistryUserID + "tcloud.hub/library/rocketmq"},
+			Remove:     true,
+		}
+		// 调用镜像构建接口
+		res, err := common.DockerClient.ImageBuild(ctx, tar, opts)
+		if err != nil {
+			panic(err)
+		}
 
-	defer res.Body.Close()
-	var lastLine string
-	scanner := bufio.NewScanner(res.Body)
-	ws, err := upgrader.Upgrade(c.Writer, c.Request, nil)
-	token := c.Request.Header.Get("x-token")
-	if token == "" {
-		token = c.Query("x-token")
-	}
-	defer ws.Close()
-	for scanner.Scan() {
-		lastLine = scanner.Text()
-		ws.WriteMessage(websocket.TextMessage, []byte(lastLine))
-	}
-	// 推送新建的镜像到私有仓库
-	authConfig := types.AuthConfig{Username: "admin", Password: "Harbor12345", ServerAddress: "tcloud.hub"}
-	encodeJson, err := json.Marshal(authConfig)
-	if err != nil {
-		panic(err)
-	}
-	authStr := base64.URLEncoding.EncodeToString(encodeJson)
-	// 调用官方docker reset api 接口推送镜像
-	read, err := common.DockerClient.ImagePush(ctx, "tcloud.hub/library/rocketmq", types.ImagePushOptions{
-		All:           false,
-		RegistryAuth:  authStr,
-		PrivilegeFunc: nil,
-	})
-	if err != nil {
-		panic(err)
-	}
-	scanner = bufio.NewScanner(read)
-	for scanner.Scan() {
-		lastLine = scanner.Text()
-		ws.WriteMessage(websocket.TextMessage, []byte(lastLine))
-	}
+		defer res.Body.Close()
+		var lastLine string
+		scanner := bufio.NewScanner(res.Body)
+		ws, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+		token := c.Request.Header.Get("x-token")
+		if token == "" {
+			token = c.Query("x-token")
+		}
+		defer ws.Close()
+		for scanner.Scan() {
+			lastLine = scanner.Text()
+			ws.WriteMessage(websocket.TextMessage, []byte(lastLine))
+		}
+		// 推送新建的镜像到私有仓库
+		authConfig := types.AuthConfig{Username: "admin", Password: "Harbor12345", ServerAddress: "tcloud.hub"}
+		encodeJson, err := json.Marshal(authConfig)
+		if err != nil {
+			panic(err)
+		}
+		authStr := base64.URLEncoding.EncodeToString(encodeJson)
+		// 调用官方docker reset api 接口推送镜像
+		read, err := common.DockerClient.ImagePush(ctx, "tcloud.hub/library/rocketmq", types.ImagePushOptions{
+			All:           false,
+			RegistryAuth:  authStr,
+			PrivilegeFunc: nil,
+		})
+		if err != nil {
+			panic(err)
+		}
+		scanner = bufio.NewScanner(read)
+		for scanner.Scan() {
+			lastLine = scanner.Text()
+			ws.WriteMessage(websocket.TextMessage, []byte(lastLine))
+		}
+	}()
 }

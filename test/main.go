@@ -1,185 +1,135 @@
 package main
 
 import (
+	"bufio"
+	"context"
 	"fmt"
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/client"
+	"github.com/docker/docker/pkg/archive"
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket"
-	"net/http"
+	"golang.org/x/sys/unix"
+	"log"
+	"runtime"
+	"strconv"
+	"strings"
+	"time"
 )
 
-/*
-type login struct {
-	Username string `form:"username" json:"username" binding:"required"`
-	Password string `form:"password" json:"password" binding:"required"`
-}
+var ClientDocker *client.Client
 
-var identityKey = "id"
-
-func helloHandler(c *gin.Context) {
-	claims := jwt.ExtractClaims(c)
-	user, _ := c.Get(identityKey)
-	c.JSON(200, gin.H{
-		"userID":   claims[identityKey],
-		"userName": user.(*User).UserName,
-		"text":     "Hello World.",
-	})
-}
-
-// User demo
-type User struct {
-	UserName  string
-	FirstName string
-	LastName  string
-}
-
-func main() {
-	port := os.Getenv("PORT")
-	r := gin.New()
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
-
-	if port == "" {
-		port = "8000"
-	}
-
-	// the jwt middleware
-	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:       "test zone",
-		Key:         []byte("secret key"),
-		Timeout:     time.Hour,
-		MaxRefresh:  time.Hour,
-		IdentityKey: identityKey,
-		PayloadFunc: func(data interface{}) jwt.MapClaims {
-			if v, ok := data.(*User); ok {
-				return jwt.MapClaims{
-					identityKey: v.UserName,
-				}
-			}
-			return jwt.MapClaims{}
-		},
-		IdentityHandler: func(c *gin.Context) interface{} {
-			claims := jwt.ExtractClaims(c)
-			return &User{
-				UserName: claims[identityKey].(string),
-			}
-		},
-		Authenticator: func(c *gin.Context) (interface{}, error) {
-			var loginVals login
-			if err := c.ShouldBind(&loginVals); err != nil {
-				return "", jwt.ErrMissingLoginValues
-			}
-			userID := loginVals.Username
-			password := loginVals.Password
-
-			if (userID == "admin" && password == "admin") || (userID == "test" && password == "test") {
-				return &User{
-					UserName:  userID,
-					LastName:  "Bo-Yi",
-					FirstName: "Wu",
-				}, nil
-			}
-
-			return nil, jwt.ErrFailedAuthentication
-		},
-		Authorizator: func(data interface{}, c *gin.Context) bool {
-			if v, ok := data.(*User); ok && v.UserName == "admin" {
-				return true
-			}
-
-			return false
-		},
-		Unauthorized: func(c *gin.Context, code int, message string) {
-			c.JSON(code, gin.H{
-				"code":    code,
-				"message": message,
-			})
-		},
-		// TokenLookup is a string in the form of "<source>:<name>" that is used
-		// to extract token from the request.
-		// Optional. Default value "header:Authorization".
-		// Possible values:
-		// - "header:<name>"
-		// - "query:<name>"
-		// - "cookie:<name>"
-		// - "param:<name>"
-		TokenLookup: "header: Authorization, query: token, cookie: jwt",
-		// TokenLookup: "query:token",
-		// TokenLookup: "cookie:token",
-
-		// TokenHeadName is a string in the header. Default value is "Bearer"
-		TokenHeadName: "Bearer",
-
-		// TimeFunc provides the current time. You can override it to use another time value. This is useful for testing or if your server uses a different time zone than your tokens.
-		TimeFunc: time.Now,
-	})
-
+// 初始化Docker Client
+func InitClient() {
+	clientDocker, err := client.NewClientWithOpts(client.WithHTTPClient(nil), client.WithHost("tcp://192.168.212.176:2375"), client.WithDialContext(nil), client.WithVersion("1.40"))
 	if err != nil {
-		log.Fatal("JWT Error:" + err.Error())
+		log.Printf("clientDocker init is %v", err)
 	}
-
-	// When you use jwt.New(), the function is already automatically called for checking,
-	// which means you don't need to call it again.
-	errInit := authMiddleware.MiddlewareInit()
-
-	if errInit != nil {
-		log.Fatal("authMiddleware.MiddlewareInit() Error:" + errInit.Error())
-	}
-
-	r.POST("/login", authMiddleware.LoginHandler)
-
-	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
-		claims := jwt.ExtractClaims(c)
-		log.Printf("NoRoute claims: %#v\n", claims)
-		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
-	})
-
-	auth := r.Group("/auth")
-	// Refresh time can be longer than token timeout
-	auth.GET("/refresh_token", authMiddleware.RefreshHandler)
-	auth.Use(authMiddleware.MiddlewareFunc())
-	{
-		auth.GET("/hello", helloHandler)
-	}
-
-	if err := http.ListenAndServe(":"+port, r); err != nil {
-		log.Fatal(err)
-	}
-}
-*/
-
-func main() {
-
-	r := gin.Default()
-	r.LoadHTMLFiles("/Users/痞老板/Work/Golang/go-xops/test/index.html")
-
-	r.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
-	})
-
-	r.GET("/ws", func(c *gin.Context) {
-		wshandler(c.Writer, c.Request)
-	})
-
-	r.Run("localhost:12312")
+	ClientDocker = clientDocker
 }
 
-var wsupgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-}
-
-func wshandler(w http.ResponseWriter, r *http.Request) {
-	conn, err := wsupgrader.Upgrade(w, r, nil)
+func GoID() int {
+	var buf [64]byte
+	n := runtime.Stack(buf[:], false)
+	idField := strings.Fields(strings.TrimPrefix(string(buf[:n]), "goroutine "))[0]
+	id, err := strconv.Atoi(idField)
 	if err != nil {
-		fmt.Printf("Failed to set websocket upgrade: %v\n", err)
-		return
+		panic(fmt.Sprintf("cannot get goroutine id: %v", err))
 	}
+	return id
+}
 
-	for {
-		t, msg, err := conn.ReadMessage()
+// 镜像构建
+func BuildImage(c *gin.Context) {
+	go func() {
+		log.Printf("构建开始 pid = %v\n", unix.Getpid())
+		log.Printf("异步ID=%v\n", GoID())
+		ctx, _ := context.WithTimeout(context.Background(), time.Second*120)
+		//defer cancel()
+
+		tar, err := archive.TarWithOptions("/Users/痞老板/Work/Golang/go-xops/build/rocketmq", &archive.TarOptions{})
 		if err != nil {
-			break
+			log.Printf("archive.TarWithOptions is %v", err)
 		}
-		conn.WriteMessage(t, msg)
+		opts := types.ImageBuildOptions{
+			Dockerfile: "Dockerfile",
+			Tags:       []string{"qperixdkajciospo" + "rocketmq_test"},
+			Remove:     true,
+		}
+		res, err := ClientDocker.ImageBuild(ctx, tar, opts)
+		if err != nil {
+			log.Printf("Imagebuild is %v", err)
+		}
+		log.Printf("res.Body is = %v", res.Body)
+
+		defer res.Body.Close()
+		scanner := bufio.NewScanner(res.Body)
+		for scanner.Scan() {
+			lastLine := scanner.Text()
+			fmt.Println(lastLine)
+		}
+	}()
+}
+
+func BuildImage2(c *gin.Context) {
+	c.Copy()
+	ctx, _ := context.WithTimeout(context.Background(), time.Second*120)
+	//defer cancel()
+
+	tar, err := archive.TarWithOptions("/Users/痞老板/Work/Golang/go-xops/build/rocketmq", &archive.TarOptions{})
+	if err != nil {
+		log.Printf("archive.TarWithOptions is %v", err)
 	}
+	opts := types.ImageBuildOptions{
+		Dockerfile: "Dockerfile",
+		Tags:       []string{"qperixdkajciospo" + "rocketmq_test"},
+		Remove:     true,
+	}
+
+	go func() {
+		log.Printf("异步ID=%v\n", GoID())
+		res, err := ClientDocker.ImageBuild(ctx, tar, opts)
+		if err != nil {
+			log.Printf("Imagebuild is %v", err)
+		}
+		log.Printf("res.Body is = %v", res.Body)
+
+		defer res.Body.Close()
+		scanner := bufio.NewScanner(res.Body)
+		for scanner.Scan() {
+			lastLine := scanner.Text()
+			fmt.Println(lastLine)
+		}
+	}()
+}
+
+func main() {
+
+	InitClient()
+	r := gin.Default()
+	r.GET("/", BuildImage)
+	r.Run("127.0.0.1:8000")
+
+	/*
+		// 1.创建路由
+		// 默认使用了2个中间件Logger(), Recovery()
+		r := gin.Default()
+		// 1.异步
+		r.GET("/long_async", func(c *gin.Context) {
+			// 需要搞一个副本
+			copyContext := c.Copy()
+			// 异步处理
+			go func() {
+				time.Sleep(3 * time.Second)
+				log.Println("异步执行：" + copyContext.Request.URL.Path)
+				log.Printf("异步ID = %v", GoID())
+			}()
+		})
+		// 2.同步
+		r.GET("/long_sync", func(c *gin.Context) {
+			time.Sleep(3 * time.Second)
+			log.Println("同步执行：" + c.Request.URL.Path)
+		})
+		r.Run(":8000")
+
+	*/
 }

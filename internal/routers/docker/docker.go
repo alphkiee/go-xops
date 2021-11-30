@@ -11,7 +11,7 @@ import (
 func InitDockerRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) (R gin.IRoutes) {
 	router := r.Group("docker").Use(authMiddleware.MiddlewareFunc()).Use(middleware.CasbinMiddleware)
 	{
-		//router.GET("/build", docker.BuildImage)
+		router.GET("/build", docker.BuildImage)
 		router.GET("/build/socket", docker.BuildImageSocket)
 		router.POST("/push/image", docker.PushImage)
 		router.GET("push/image/socket", docker.BuildImageSocketPush)

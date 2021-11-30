@@ -2,7 +2,6 @@ package initialize
 
 import (
 	"go-xops/pkg/common"
-
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 )
@@ -14,7 +13,8 @@ func InitKubeConf() {
 	if err != nil {
 		panic(err)
 	}
-	common.ClientSet, err = kubernetes.NewForConfig(config)
+	common.Config = config
+	common.ClientSet, err = kubernetes.NewForConfig(common.Config)
 	if err != nil {
 		panic(err)
 	}

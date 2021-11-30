@@ -19,6 +19,7 @@ type ApplicationReq struct {
 	Format    string `json:"format"`
 }
 
+// 部署deployment传参数
 type DeploymentReq struct {
 	DeployName    string            `json:"deployment"`
 	Replicas      int32             `json:"replicas"`
@@ -30,12 +31,33 @@ type DeploymentReq struct {
 	ContainerPort uint              `json:"containerport"`
 }
 
+// 更新deployment传参
 type UpDeploymentReq struct {
 	Replicas       int32  `json:"replicas"`
 	NameSpace      string `json:"namespace"`
 	DeploymentName string `json:"deploymentname"`
 	Image          string `json:"image"`
 	ContainerPort  uint   `json:"containerport"`
+}
+
+// 删除deployment结构体传参数
+type DeleteDeployment struct {
+	Namespaces string `json:"namespaces"`
+	Name       string `json:"name"`
+}
+
+// kubectl exec -it "pod name" /bin/bash
+// 传参数名称
+type ExecPod struct {
+	Resource  string `json:"resource"`
+	Name      string `json:"name"` // pod name
+	Namespace string `json:"namespace"`
+}
+
+// 获取pod的日志
+type LogPod struct {
+	Namespace string `json:"namespace"`
+	Name      string `json:"name"` // pod name
 }
 
 func GetDeployments(ctx context.Context, namespace, label string) ([]k8s.Deployment, error) {
